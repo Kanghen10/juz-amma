@@ -1,48 +1,60 @@
 const audio = document.getElementById("audio");
-const playBtn = document.getElementById("play");
-const pauseBtn = document.getElementById("pause");
-const stopBtn = document.getElementById("stop");
-const verses = [...document.querySelectorAll(".verse")];
+const btnPlay = document.getElementById("btnPlay");
+const btnPause = document.getElementById("btnPause");
+const btnStop = document.getElementById("btnStop");
 
-/* ---- PLAY ---- */
-playBtn.onclick = () => audio.play();
+const progressBar = document.getElementById("progressBar");
+const currentTimeEl = document.getElementById("currentTime");
+const durationEl = document.getElementById("duration");
 
-/* ---- PAUSE ---- */
-pauseBtn.onclick = () => audio.pause();
-
-/* ---- STOP ---- */
-stopBtn.onclick = () => {
-  audio.pause();
-  audio.currentTime = 0;
-  clearActive();
-};
-
-/* ---- AUTO-HIGHLIGHT ---- */
-audio.ontimeupdate = () => {
-  const t = audio.currentTime;
-  
-  for (let i = 0; i < verses.length; i++) {
-    let start = parseFloat(verses[i].dataset.start);
-    let next = i < verses.length - 1 ? parseFloat(verses[i+1].dataset.start) : 9999;
-
-    if (t >= start && t < next) {
-      clearActive();
-      verses[i].classList.add("active");
-      return;
-    }
-  }
-};
-
-/* ---- CLEAR HIGHLIGHT ---- */
-function clearActive(){
-  verses.forEach(v => v.classList.remove("active"));
+// Format waktu mm:ss
+function formatTime(sec){
+  if(isNaN(sec)) return "--:--";
+  const m = Math.floor(sec/60).toString().padStart(2,"0");
+  const s = Math.floor(sec%60).toString().padStart(2,"0");
+  return `${m}:${s}`;
 }
 
-/* ---- STOP WHEN TAB NOT VISIBLE ---- */
-document.addEventListener("visibilitychange", () => {
-  if (document.hidden) {
-    audio.pause();
-    audio.currentTime = 0;
-    clearActive();
-  }
-});
+// Load metadata
+audio.onloadedmetadata = () => {
+  durationEl.textContent = formatTime(audio.duration);
+};
+
+// Update progress
+audio.ontimeupdate = () => {
+  currentTimeEl.textContent = formatTime(audio.currentTime);
+  const p = (audio.currentTime / audio.duration) * 100;
+  progressBar.style.width = `${p}%`;
+};
+
+// PLAY
+btnPlay.onclick = () => {
+  audio.play();
+  btnPlay.disabled = true;
+  btnPause.disabled = false;
+  btnStop.disabled = false;
+};
+
+// PAUSE
+btnPause.onclick = () => {
+  audio.pause();
+  btnPlay.disabled = false;
+  btnPause.disabled = true;
+};
+
+// STOP
+btnStop.onclick = () => {
+  audio.pause();
+  audio.currentTime = 0;
+  btnPlay.disabled = false;
+  btnPause.disabled = true;
+  btnStop.disabled = true;
+};
+
+// Reset ketika audio selesai
+audio.onended = () => {
+  audio.currentTime = 0;
+  btnPlay.disabled = false;
+  btnPause.disabled = true;
+  btnStop.disabled = true;
+};
