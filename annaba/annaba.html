@@ -1,0 +1,605 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Surat An-Naba</title>
+
+  <!-- Tipografi elegan -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Amiri:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg: #f6f7f8;
+      --card: #ffffff;
+      --muted: #6b6b6b;
+      --accent: #0f5132;
+      --accent-2: #0b5b8a;
+      --verse-bg-1: #fbfcfd;
+      --verse-bg-2: #f3f6f5;
+      --verse-number-bg: rgba(15,81,50,0.08);
+      --shadow: 0 6px 18px rgba(11,20,30,0.06);
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    html,body{
+      height:100%;
+      margin:0;
+      background: linear-gradient(180deg, #f8fbfa 0%, var(--bg) 100%);
+      color: #111827;
+    }
+
+    .container{
+      max-width: 920px;
+      margin: 28px auto;
+      padding: 22px;
+      padding-bottom: 140px !important;
+    }
+
+    .card{
+      background: var(--card);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      padding: 20px;
+    }
+
+    header.page-header{
+      display:flex;
+      gap:16px;
+      align-items:center;
+      margin-bottom: 18px;
+      flex-wrap:wrap;
+    }
+
+    .title h1{
+      margin:0;
+      font-size:20px;
+      font-weight:700;
+    }
+
+    /* PLAYER FIXED */
+    .player-fixed{
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: #ffffff;
+      box-shadow: 0 -4px 14px rgba(0,0,0,0.08);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      z-index: 99;
+    }
+
+    .controls{
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+
+    .btn{
+      border:none;
+      background: linear-gradient(180deg,#ffffff,#f6f9f8);
+      padding:10px 14px;
+      border-radius:10px;
+      box-shadow:0 6px 14px rgba(16,24,32,0.06);
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-weight:600;
+      font-size:14px;
+      color:#0b3b2b;
+    }
+
+    .btn.play { background: linear-gradient(180deg,#e9fff3,#dff7ec); color:#055b35; }
+    .btn.pause{ background: linear-gradient(180deg,#fff8e9,#fff2d9); color:#6b4b00; }
+    .btn.stop { background: linear-gradient(180deg,#fff6f6,#ffecec); color:#7a1f1f; }
+
+    .btn:active{ transform:translateY(1px); }
+    .btn[disabled]{ opacity:.55; cursor:not-allowed; }
+
+    .progress{
+      height:10px; background:linear-gradient(180deg,#eef3f2,#f6fbfa);
+      border-radius:999px; overflow:hidden;
+      flex:1; min-width:120px;
+      padding:2px; display:flex; align-items:center;
+    }
+
+    .progress > i{
+      height:6px; width:0%;
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      border-radius:999px;
+      transition:width .2s linear;
+    }
+
+    .time{ font-size:13px; color:var(--muted); min-width:72px; text-align:right; }
+
+    /* Verses */
+    .verses{ margin-top:18px; display:grid; gap:12px; }
+
+    .verse{
+      display:grid;
+      grid-template-columns:auto 1fr;
+      gap:12px;
+      padding:14px;
+      border-radius:12px;
+    }
+
+    .verse:nth-child(odd){ background:var(--verse-bg-1); }
+    .verse:nth-child(even){ background:var(--verse-bg-2); }
+
+    .verse-number{
+      width:46px; height:46px;
+      border-radius:12px;
+      display:flex; align-items:center; justify-content:center;
+      font-weight:700; font-size:14px;
+      background:var(--verse-number-bg);
+      color:var(--accent);
+    }
+
+    .verse-content{ display:flex; flex-direction:column; gap:8px; }
+
+    .arabic{
+      font-family:"Amiri", serif;
+      font-size:22px; line-height:1.6;
+      text-align:right; direction:rtl;
+      padding-right:6px; color:#0b2b22;
+    }
+
+    .translit{ font-size:14px; color:#25403a; font-weight:600; }
+    .translation{ font-size:14px; color:#444c4f; opacity:.95; }
+  </style>
+</head>
+
+<body>
+
+  <!-- AUDIO -->
+  <audio id="audio" preload="none">
+    <source src="./078-an-naba.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- PLAYER -->
+  <div class="player-fixed">
+    <div class="controls">
+      <button class="btn play" id="btnPlay">▶ Play</button>
+      <button class="btn pause" id="btnPause" disabled>❚❚ Pause</button>
+      <button class="btn stop" id="btnStop" disabled>■ Stop</button>
+    </div>
+
+    <div class="progress"><i id="progressBar"></i></div>
+
+    <div class="time">
+      <span id="currentTime">00:00</span> / <span id="duration">--:--</span>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="container">
+    <div class="card">
+      <header class="page-header">
+        <div class="title">
+          <h1>Surat An-Naba (النبأ)</h1>
+        </div>
+      </header>
+
+      <section class="verses">
+
+        <!-- Basmalah -->
+        <article class="verse">
+          <div class="verse-number">Basmalah</div>
+          <div class="verse-content">
+            <div class="arabic">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
+            <div class="translit">Bismillahirrahmanirrahim</div>
+            <div class="translation">Dengan menyebut nama Allah Yang Maha Pengasih lagi Maha Penyayang</div>
+          </div>
+        </article>
+
+        <!-- AYAT 1 -->
+        <article class="verse">
+          <div class="verse-number">1</div>
+          <div class="verse-content">
+            <div class="arabic">عَمَّ يَتَسَآءَلُوْنَۚ</div>
+            <div class="translit">‘amma yatasā`alụn</div>
+            <div class="translation">Tentang apakah mereka saling bertanya-tanya?</div>
+          </div>
+        </article>
+
+        <!-- AYAT 2 -->
+        <article class="verse">
+          <div class="verse-number">2</div>
+          <div class="verse-content">
+            <div class="arabic">عَنِ النَّبَاِ الْعَظِيْمِۙ</div>
+            <div class="translit">‘anin-naba`il-‘aẓīm</div>
+            <div class="translation">Tentang berita yang besar (hari kebangkitan),</div>
+          </div>
+        </article>
+
+        <!-- AYAT 3 -->
+        <article class="verse">
+          <div class="verse-number">3</div>
+          <div class="verse-content">
+            <div class="arabic">الَّذِيْ هُمْ فِيْهِ مُخْتَلِفُوْنَۗ</div>
+            <div class="translit">allażī hum fīhi mukhtalifụn</div>
+            <div class="translation">yang dalam hal itu mereka berselisih.</div>
+          </div>
+        </article>
+
+        <!-- AYAT 4 -->
+        <article class="verse">
+          <div class="verse-number">4</div>
+          <div class="verse-content">
+            <div class="arabic">كَلَّا سَيَعْلَمُوْنَۙ</div>
+            <div class="translit">kallā saya’lamụn</div>
+            <div class="translation">Tidak! Kelak mereka akan mengetahui,</div>
+          </div>
+        </article>
+
+        <!-- AYAT 5 -->
+        <article class="verse">
+          <div class="verse-number">5</div>
+          <div class="verse-content">
+            <div class="arabic">ثُمَّ كَلَّا سَيَعْلَمُوْنَ</div>
+            <div class="translit">ṡumma kallā saya’lamụn</div>
+            <div class="translation">sekali lagi tidak! Kelak mereka akan mengetahui.</div>
+          </div>
+        </article>
+
+        <!-- AYAT 6 -->
+        <article class="verse">
+          <div class="verse-number">6</div>
+          <div class="verse-content">
+            <div class="arabic">اَلَمْ نَجْعَلِ الْاَرْضَ مِهٰدًاۙ</div>
+            <div class="translit">a lam naj’alil-arḍa mihādā</div>
+            <div class="translation">Bukankah Kami telah menjadikan bumi sebagai hamparan,</div>
+          </div>
+        </article>
+
+        <!-- AYAT 7 -->
+        <article class="verse">
+          <div class="verse-number">7</div>
+          <div class="verse-content">
+            <div class="arabic">وَالْجِبَالَ اَوْتَادًاۖ</div>
+            <div class="translit">wal-jibāla autādā</div>
+            <div class="translation">dan gunung-gunung sebagai pasak?</div>
+          </div>
+        </article>
+
+        <!-- AYAT 8 -->
+        <article class="verse">
+          <div class="verse-number">8</div>
+          <div class="verse-content">
+            <div class="arabic">وَخَلَقْنٰكُمْ اَزْوَاجًاۙ</div>
+            <div class="translit">wa khalaqnākum azwājā</div>
+            <div class="translation">Dan Kami menciptakan kamu berpasang-pasangan,</div>
+          </div>
+        </article>
+
+        <!-- AYAT 9 -->
+        <article class="verse">
+          <div class="verse-number">9</div>
+          <div class="verse-content">
+            <div class="arabic">وَجَعَلْنَا نَوْمَكُمْ سُبَاتًاۙ</div>
+            <div class="translit">wa ja’alnā naumakum subātā</div>
+            <div class="translation">dan Kami menjadikan tidurmu untuk istirahat,</div>
+          </div>
+        </article>
+
+        <!-- AYAT 10 -->
+        <article class="verse">
+          <div class="verse-number">10</div>
+          <div class="verse-content">
+            <div class="arabic">وَجَعَلْنَا الَّيْلَ لِبَاسًاۙ</div>
+            <div class="translit">wa ja’alnal-laila libāsā</div>
+            <div class="translation">dan Kami menjadikan malam sebagai pakaian,</div>
+          </div>
+        </article>
+
+        <!-- AYAT 11 -->
+        <article class="verse">
+          <div class="verse-number">11</div>
+          <div class="verse-content">
+            <div class="arabic">وَجَعَلْنَا النَّهَارَ مَعَاشًاۚ</div>
+            <div class="translit">wa ja’alnan-nahāra ma’āsyā</div>
+            <div class="translation">dan Kami menjadikan siang untuk mencari penghidupan,</div>
+          </div>
+        </article>
+
+        <!-- AYAT 12 -->
+        <article class="verse">
+          <div class="verse-number">12</div>
+          <div class="verse-content">
+            <div class="arabic">وَبَنَيْنَا فَوْقَكُمْ سَبْعًا شِدَادًاۙ</div>
+            <div class="translit">wa banainā fauqakum sab’an syidādā</div>
+            <div class="translation">dan Kami membangun di atas kamu tujuh (langit) yang kokoh,</div>
+          </div>
+        </article>
+
+        <!-- AYAT 13 -->
+        <article class="verse">
+          <div class="verse-number">13</div>
+          <div class="verse-content">
+            <div class="arabic">وَجَعَلْنَا سِرَاجًا وَّهَّاجًاۖ</div>
+            <div class="translit">wa ja’alnā sirājaw wahhājā</div>
+            <div class="translation">dan Kami menjadikan pelita yang terang-benderang (matahari),</div>
+          </div>
+        </article>
+
+        <!-- AYAT 14 -->
+        <article class="verse">
+          <div class="verse-number">14</div>
+          <div class="verse-content">
+            <div class="arabic">وَاَنْزَلْنَا مِنَ الْمُعْصِرٰتِ مَآءً ثَجَّاجًاۙ</div>
+            <div class="translit">wa anzalnā minal-mu’ṣirāti mā`an ṡajjājā</div>
+            <div class="translation">dan Kami turunkan dari awan, air hujan yang tercurah dengan hebatnya,</div>
+          </div>
+        </article>
+
+        <!-- AYAT 15 -->
+        <article class="verse">
+          <div class="verse-number">15</div>
+          <div class="verse-content">
+            <div class="arabic">لِنُخْرِجَ بِهٖ حَبًّا وَّنَبَاتًاۙ</div>
+            <div class="translit">linukhrija bihī ḥabbaw wa nabātā</div>
+            <div class="translation">untuk Kami tumbuhkan dengan air itu biji-bijian dan tanam-tanaman,</div>
+          </div>
+        </article>
+
+        <!-- AYAT 16 -->
+        <article class="verse">
+          <div class="verse-number">16</div>
+          <div class="verse-content">
+            <div class="arabic">وَجَنّٰتٍ اَلْفَافًاۗ</div>
+            <div class="translit">wa jannātin alfāfā</div>
+            <div class="translation">dan kebun-kebun yang rindang.</div>
+          </div>
+        </article>
+
+        <!-- AYAT 17 -->
+        <article class="verse">
+          <div class="verse-number">17</div>
+          <div class="verse-content">
+            <div class="arabic">اِنَّ يَوْمَ الْفَصْلِ كَانَ مِيْقَاتًاۙ</div>
+            <div class="translit">inna yaumal-faṣli kāna mīqātā</div>
+            <div class="translation">Sungguh, hari keputusan adalah suatu waktu yang telah ditetapkan,</div>
+          </div>
+        </article>
+
+        <!-- AYAT 18 -->
+        <article class="verse">
+          <div class="verse-number">18</div>
+          <div class="verse-content">
+            <div class="arabic">يَّوْمَ يُنْفَخُ فِى الصُّوْرِ فَتَأْتُوْنَ اَفْوَاجًاۙ</div>
+            <div class="translit">yauma yunfakhu fiṣ-ṣụri fa ta`tụna afwājā</div>
+            <div class="translation">(yaitu) pada hari (ketika) sangkakala ditiup, lalu kamu datang berbondong-bondong,</div>
+          </div>
+        </article>
+
+        <!-- AYAT 19 -->
+        <article class="verse">
+          <div class="verse-number">19</div>
+          <div class="verse-content">
+            <div class="arabic">وَفُتِحَتِ السَّمَاۤءُ فَكَانَتْ اَبْوَابًاۙ</div>
+            <div class="translit">wa futiḥatis-samā`u fa kānat abwābā</div>
+            <div class="translation">dan langit pun dibukalah, maka terdapatlah beberapa pintu,</div>
+          </div>
+        </article>
+
+        <!-- AYAT 20 -->
+        <article class="verse">
+          <div class="verse-number">20</div>
+          <div class="verse-content">
+            <div class="arabic">وَسُيِّرَتِ الْجِبَالُ فَكَانَتْ سَرَابًاۗ</div>
+            <div class="translit">wa suyyiratil-jibālu fa kānat sarābā</div>
+            <div class="translation">dan gunung-gunung pun dijalankan sehingga menjadi fatamorgana.</div>
+          </div>
+        </article>
+
+        <!-- AYAT 21 -->
+        <article class="verse">
+          <div class="verse-number">21</div>
+          <div class="verse-content">
+            <div class="arabic">اِنَّ جَهَنَّمَ كَانَتْ مِرْصَادًاۙ</div>
+            <div class="translit">inna jahannama kānat mirṣādā</div>
+            <div class="translation">Sungguh, (neraka) Jahanam itu (sebagai) tempat mengintai,</div>
+          </div>
+        </article>
+
+        <!-- AYAT 22 -->
+        <article class="verse">
+          <div class="verse-number">22</div>
+          <div class="verse-content">
+            <div class="arabic">لِلطّٰغِيْنَ مَاٰبًاۙ</div>
+            <div class="translit">liṭ-ṭāgīna ma`ābā</div>
+            <div class="translation">menjadi tempat kembali bagi orang-orang yang melampaui batas.</div>
+          </div>
+        </article>
+
+        <!-- AYAT 23 -->
+        <article class="verse">
+          <div class="verse-number">23</div>
+          <div class="verse-content">
+            <div class="arabic">لّٰبِثِيْنَ فِيْهَآ اَحْقَابًاۚ</div>
+            <div class="translit">lābiṡīna fīhā aḥqābā</div>
+            <div class="translation">Mereka tinggal di sana dalam masa yang lama,</div>
+          </div>
+        </article>
+
+        <!-- AYAT 24 -->
+        <article class="verse">
+          <div class="verse-number">24</div>
+          <div class="verse-content">
+            <div class="arabic">لَا يَذُوْقُوْنَ فِيْهَا بَرْدًا وَّلَا شَرَابًاۙ</div>
+            <div class="translit">lā yażụqụna fīhā bardaw wa lā syarābā</div>
+            <div class="translation">mereka tidak merasakan kesejukan di dalamnya dan tidak (pula mendapat) minuman,</div>
+          </div>
+        </article>
+
+        <!-- AYAT 25 -->
+        <article class="verse">
+          <div class="verse-number">25</div>
+          <div class="verse-content">
+            <div class="arabic">اِلَّا حَمِيْمًا وَّغَسَّاقًاۙ</div>
+            <div class="translit">illā ḥamīmaw wa gassāqā</div>
+            <div class="translation">selain air yang mendidih dan nanah,</div>
+          </div>
+        </article>
+
+        <!-- AYAT 26 -->
+        <article class="verse">
+          <div class="verse-number">26</div>
+          <div class="verse-content">
+            <div class="arabic">جَزَاۤءً وِّفَاقًاۗ</div>
+            <div class="translit">jazā`aw wifāqā</div>
+            <div class="translation">sebagai pembalasan yang setimpal.</div>
+          </div>
+        </article>
+
+        <!-- AYAT 27 -->
+        <article class="verse">
+          <div class="verse-number">27</div>
+          <div class="verse-content">
+            <div class="arabic">اِنَّهُمْ كَانُوْا لَا يَرْجُوْنَ حِسَابًاۙ</div>
+            <div class="translit">innahum kānụ lā yarjụna ḥisābā</div>
+            <div class="translation">Sesungguhnya dahulu mereka tidak pernah mengharapkan perhitungan.</div>
+          </div>
+        </article>
+
+   <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">28</div>
+          <div class="verse-content">
+            <div class="arabic">وَّكَذَّبُوْا بِاٰيٰتِنَا كِذَّابًاۗ</div>
+            <div class="translit">wa każżabụ bi`āyātinā kiżżābā</div>
+            <div class="translation">Dan mereka benar-benar mendustakan ayat-ayat Kami.</div>
+          </div>
+        </article>
+
+   <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">29</div>
+          <div class="verse-content">
+            <div class="arabic">وَكُلَّ شَيْءٍ اَحْصَيْنٰهُ كِتٰبًاۙ</div>
+            <div class="translit">wa kulla syai`in aḥṣaināhu kitābā</div>
+            <div class="translation">Dan segala sesuatu telah Kami catat dalam suatu Kitab (buku catatan amalan manusia).</div>
+          </div>
+        </article>
+
+   <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">30</div>
+          <div class="verse-content">
+            <div class="arabic">فَذُوْقُوْا فَلَنْ نَّزِيْدَكُمْ اِلَّا عَذَابًا</div>
+            <div class="translit">fa żụqụ fa lan nazīdakum illā ‘ażābā</div>
+            <div class="translation">Maka karena itu rasakanlah! Maka tidak ada yang akan Kami tambahkan kepadamu selain azab.</div>
+          </div>
+        </article>
+
+   <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">31</div>
+          <div class="verse-content">
+            <div class="arabic">اِنَّ لِلْمُتَّقِيْنَ مَفَازًاۙ</div>
+            <div class="translit">inna lil-muttaqīna mafāzā</div>
+            <div class="translation">Sungguh, orang-orang yang bertakwa mendapat kemenangan,</div>
+          </div>
+        </article>
+
+   <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">32</div>
+          <div class="verse-content">
+            <div class="arabic">حَدَاۤىِٕقَ وَاَعْنَابًاۙ</div>
+            <div class="translit">ḥadā`iqa wa a’nābā</div>
+            <div class="translation">(yaitu) kebun-kebun dan buah anggur,</div>
+          </div>
+        </article>
+
+   <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">33</div>
+          <div class="verse-content">
+            <div class="arabic">وَّكَوَاعِبَ اَتْرَابًاۙ</div>
+            <div class="translit">wa kawā’iba atrābā</div>
+            <div class="translation">dan gadis-gadis montok yang sebaya,</div>
+          </div>
+        </article>
+
+   <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">34</div>
+          <div class="verse-content">
+            <div class="arabic">وَّكَأْسًا دِهَاقًاۗ</div>
+            <div class="translit">wa ka`san dihāqā</div>
+            <div class="translation">dan gelas-gelas yang penuh (berisi minuman).</div>
+          </div>
+        </article>
+
+   <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">35</div>
+          <div class="verse-content">
+            <div class="arabic">لَا يَسْمَعُوْنَ فِيْهَا لَغْوًا وَّلَا كِذَّابًا</div>
+            <div class="translit">lā yasma’ụna fīhā lagwaw wa lā kiżżābā</div>
+            <div class="translation">Di sana mereka tidak mendengar percakapan yang sia-sia maupun (perkataan) dusta.</div>
+          </div>
+        </article>
+
+   <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">36</div>
+          <div class="verse-content">
+            <div class="arabic">جَزَاۤءً مِّنْ رَّبِّكَ عَطَاۤءً حِسَابًاۙ</div>
+            <div class="translit">jazā`am mir rabbika ‘aṭā`an ḥisābā</div>
+            <div class="translation">Sebagai balasan dan pemberian yang cukup banyak dari Tuhanmu,</div>
+          </div>
+        </article>
+
+   <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">37</div>
+          <div class="verse-content">
+            <div class="arabic">رَّبِّ السَّمٰوٰتِ وَالْاَرْضِ وَمَا بَيْنَهُمَا الرَّحْمٰنِ لَا يَمْلِكُوْنَ مِنْهُ خِطَابًاۚ</div>
+            <div class="translit">rabbis-samāwāti wal-arḍi wa mā bainahumar-raḥmāni lā yamlikụna min-hu khiṭābā</div>
+            <div class="translation">Tuhan (yang memelihara) langit dan bumi dan apa yang ada di antara keduanya; Yang Maha Pengasih, mereka tidak mampu berbicara dengan Dia.</div>
+          </div>
+        </article>
+
+   <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">38</div>
+          <div class="verse-content">
+            <div class="arabic">يَوْمَ يَقُوْمُ الرُّوْحُ وَالْمَلٰۤىِٕكَةُ صَفًّاۙ لَّا يَتَكَلَّمُوْنَ اِلَّا مَنْ اَذِنَ لَهُ الرَّحْمٰنُ وَقَالَ صَوَابًا</div>
+            <div class="translit">yauma yaqụmur-rụḥu wal-malā`ikatu ṣaffal lā yatakallamụna illā man ażina lahur-raḥmānu wa qāla ṣawābā</div>
+            <div class="translation">Pada hari, ketika ruh dan para malaikat berdiri bersaf-saf, mereka tidak berkata-kata, kecuali siapa yang telah diberi izin kepadanya oleh Tuhan Yang Maha Pengasih dan dia hanya mengatakan yang benar.</div>
+          </div>
+        </article>
+
+   <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">39</div>
+          <div class="verse-content">
+            <div class="arabic">ذٰلِكَ الْيَوْمُ الْحَقُّۚ فَمَنْ شَاۤءَ اتَّخَذَ اِلٰى رَبِّهٖ مَاٰبًا</div>
+            <div class="translit">żālikal-yaumul-ḥaqq, fa man syā`attakhaża ilā rabbihī ma`ābā</div>
+            <div class="translation">Itulah hari yang pasti terjadi. Maka barang siapa menghendaki, niscaya dia menempuh jalan kembali kepada Tuhannya.</div>
+          </div>
+        </article>
+
+   <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">40</div>
+          <div class="verse-content">
+            <div class="arabic">اِنَّآ اَنْذَرْنٰكُمْ عَذَابًا قَرِيْبًا ەۙ يَّوْمَ يَنْظُرُ الْمَرْءُ مَا قَدَّمَتْ يَدَاهُ وَيَقُوْلُ الْكٰفِرُ يٰلَيْتَنِيْ كُنْتُ تُرَابًا</div>
+            <div class="translit">innā anżarnākum ‘ażābang qarībay yauma yanẓurul-mar`u mā qaddamat yadāhu wa yaqụlul-kāfiru yā laitanī kuntu turābā</div>
+            <div class="translation">Sesungguhnya Kami telah memperingatkan kepadamu (orang kafir) azab yang dekat, pada hari manusia melihat apa yang telah diperbuat oleh kedua tangannya; dan orang kafir berkata, “Alangkah baiknya seandainya dahulu aku jadi tanah.”</div>
+          </div>
+        </article>
+
+ 
+
+      </section>
+    </div>
+  </div>
+
+  <script src="adduha.js"></script>
+</body>
+</html>
