@@ -58,3 +58,23 @@ audio.onended = () => {
   btnPause.disabled = true;
   btnStop.disabled = true;
 };
+// --- AUTO STOP KETIKA TAB / HALAMAN TIDAK AKTIF ---
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    audio.pause();
+    audio.currentTime = 0;
+
+    btnPlay.disabled = false;
+    btnPause.disabled = true;
+    btnStop.disabled = true;
+  }
+});
+
+window.addEventListener("blur", () => {
+  audio.pause();
+  audio.currentTime = 0;
+
+  btnPlay.disabled = false;
+  btnPause.disabled = true;
+  btnStop.disabled = true;
+});
