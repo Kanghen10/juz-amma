@@ -1,377 +1,197 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Surat Ad-Duha — Audio & Teks</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Surat Ad-Duha</title>
 
-  <!-- Tipografi elegan -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Amiri:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fafafa;
+  --card:#ffffff;
+  --accent:#2fb58c;
+  --arab:#111;
+  --latin:#444;
+  --indo:#333;
+  --highlight:#e9fff6;
+}
 
-  <style>
-    /* --- Reset minimal --- */
-    :root{
-      --bg: #f6f7f8;
-      --card: #ffffff;
-      --muted: #6b6b6b;
-      --accent: #0f5132; /* deep green */
-      --accent-2: #0b5b8a; /* subtle blue */
-      --verse-bg-1: #fbfcfd;
-      --verse-bg-2: #f3f6f5;
-      --verse-number-bg: rgba(15,81,50,0.08);
-      --shadow: 0 6px 18px rgba(11,20,30,0.06);
-      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    }
+body{
+  margin:0;
+  background:var(--bg);
+  font-family: "Segoe UI", sans-serif;
+  padding-bottom:120px; /* ruang untuk audio bar */
+}
 
-    html,body{
-      height:100%;
-      margin:0;
-      background: linear-gradient(180deg, #f8fbfa 0%, var(--bg) 100%);
-      color: #111827;
-    }
+.container{
+  max-width:860px;
+  margin:auto;
+  padding:20px;
+}
 
-    .container{
-      max-width: 920px;
-      margin: 28px auto;
-      padding: 22px;
-    }
+.verse{
+  background:var(--card);
+  border-radius:12px;
+  padding:18px;
+  margin-bottom:15px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.06);
+  transition:0.25s;
+}
 
-    .card{
-      background: var(--card);
-      border-radius: 14px;
-      box-shadow: var(--shadow);
-      padding: 20px;
-      overflow: hidden;
-    }
+.verse.active{
+  background:var(--highlight);
+  border-left:5px solid var(--accent);
+}
 
-    header.page-header{
-      display:flex;
-      gap:16px;
-      align-items:center;
-      margin-bottom: 18px;
-      flex-wrap:wrap;
-    }
+.arab{
+  font-size:32px;
+  font-weight:600;
+  color:var(--arab);
+  direction:rtl;
+  text-align:right;
+  line-height:1.7;
+}
 
-    .title{
-      display:flex;
-      flex-direction:column;
-    }
+.latin{
+  font-size:17px;
+  margin-top:10px;
+  color:var(--latin);
+}
 
-    .title h1{
-      margin:0;
-      font-size:20px;
-      font-weight:700;
-      letter-spacing: -0.2px;
-    }
+.indo{
+  font-size:16px;
+  margin-top:6px;
+  color:var(--indo);
+}
 
-    .title p{
-      margin: 4px 0 0 0;
-      color: var(--muted);
-      font-size:13px;
-    }
+/* AUDIO FIXED BAR */
+#audioBar{
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  background:#ffffff;
+  border-top:1px solid #ddd;
+  box-shadow:0 -3px 10px rgba(0,0,0,0.08);
+  padding:15px 0;
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  z-index:9999;
+}
 
-    /* Audio player controls area */
-    .player-area{
-      margin-top:12px;
-      display:flex;
-      gap:12px;
-      align-items:center;
-      flex-wrap:wrap;
-    }
+button{
+  background:var(--accent);
+  border:none;
+  color:white;
+  font-size:16px;
+  padding:12px 22px;
+  border-radius:30px;
+  cursor:pointer;
+  transition:0.25s;
+}
 
-    .controls{
-      display:flex;
-      gap:8px;
-      align-items:center;
-    }
+button:hover{
+  opacity:0.85;
+}
 
-    .btn {
-      border: none;
-      background: linear-gradient(180deg, #ffffff, #f6f9f8);
-      padding: 10px 14px;
-      border-radius: 10px;
-      box-shadow: 0 6px 14px rgba(16,24,32,0.06);
-      cursor: pointer;
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      font-weight:600;
-      font-size:14px;
-      color: #0b3b2b;
-    }
-
-    .btn:active{ transform: translateY(1px); }
-    .btn[disabled]{ opacity:0.55; cursor:not-allowed; transform:none; }
-
-    .btn.play { background: linear-gradient(180deg,#e9fff3,#dff7ec); color: #055b35; }
-    .btn.pause { background: linear-gradient(180deg,#fff8e9,#fff2d9); color: #6b4b00; }
-    .btn.stop { background: linear-gradient(180deg,#fff6f6,#ffecec); color: #7a1f1f; }
-
-    .progress{
-      height:10px;
-      background: linear-gradient(180deg,#eef3f2,#f6fbfa);
-      border-radius: 999px;
-      overflow:hidden;
-      flex:1;
-      min-width:160px;
-      display:flex;
-      align-items:center;
-      padding:2px;
-    }
-
-    .progress > i{
-      height:6px;
-      width:0%;
-      background: linear-gradient(90deg,var(--accent), var(--accent-2));
-      display:block;
-      border-radius:999px;
-      transition: width 0.2s linear;
-    }
-
-    .time{
-      font-size:13px;
-      color:var(--muted);
-      min-width:72px;
-      text-align:right;
-    }
-
-    /* Verses list */
-    .verses{
-      margin-top:18px;
-      display:grid;
-      gap:12px;
-    }
-
-    .verse{
-      display:grid;
-      grid-template-columns: auto 1fr;
-      gap:12px;
-      padding:14px;
-      border-radius:12px;
-      align-items:start;
-    }
-
-    .verse:nth-child(odd){ background: var(--verse-bg-1); }
-    .verse:nth-child(even){ background: var(--verse-bg-2); }
-
-    .verse-number{
-      width:46px;
-      height:46px;
-      border-radius:12px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-weight:700;
-      color: var(--accent);
-      background: var(--verse-number-bg);
-      font-size:14px;
-      flex-shrink:0;
-    }
-
-    .verse-content{
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-    }
-
-    .arabic{
-      font-family: "Amiri", serif;
-      font-size:22px;
-      line-height:1.6;
-      text-align: right;
-      direction: rtl;
-      padding-right:6px;
-      color:#0b2b22;
-    }
-
-    .translit{
-      font-size:14px;
-      color: #25403a;
-      font-weight:600;
-    }
-
-    .translation{
-      font-size:14px;
-      color: #444c4f;
-      opacity:0.95;
-    }
-
-    /* small screens */
-    @media (max-width:520px){
-      .arabic{ font-size:20px; }
-      .title h1{ font-size:18px; }
-      .player-area{ flex-direction:column; align-items:stretch; gap:10px; }
-      .controls{ width:100%; justify-content:space-between; }
-    }
-
-    footer.credits{
-      margin-top:14px;
-      font-size:13px;
-      color:var(--muted);
-      text-align:center;
-    }
-  </style>
+.stop-btn{
+  background:#d9534f;
+}
+</style>
 </head>
+
 <body>
-  <div class="container">
-    <div class="card" role="main" aria-labelledby="surah-title">
 
-      <header class="page-header">
-        <div class="title">
-          <h1 id="surah-title">Surat Ad-Duha (الضحى)</h1>
-          <p>Audio: remote MP3 — tidak autoplay. Tab berpindah → audio otomatis STOP.</p>
-        </div>
-      </header>
+<div class="container">
+  <h1 style="text-align:center;color:#2c3e50;margin-bottom:25px;">
+    Surat Ad-Duha (الضحى)
+  </h1>
 
-      <!-- PLAYER (hidden native audio element) -->
-      <div class="player-area" aria-label="Audio player area">
-        <audio id="audio" preload="none" crossorigin="anonymous">
-          <source src="https://islamdownload.net/r/123862/v1/093-adh-dhuha.mp3" type="audio/mpeg">
-          <!-- fallback -->
-          Browser Anda tidak mendukung elemen audio.
-        </audio>
+  <!-- ===== AYAT LIST ===== -->
+  <div id="verses">
 
-        <div class="controls" role="group" aria-label="Kontrol pemutar">
-          <button class="btn play" id="btnPlay" aria-label="Play">
-            ▶ Play
-          </button>
-          <button class="btn pause" id="btnPause" aria-label="Pause" disabled>
-            ❚❚ Pause
-          </button>
-          <button class="btn stop" id="btnStop" aria-label="Stop" disabled>
-            ■ Stop
-          </button>
-        </div>
-
-        <div class="progress" aria-hidden="false" title="Progress">
-          <i id="progressBar" style="width:0%"></i>
-        </div>
-
-        <div class="time" aria-live="polite" aria-atomic="true">
-          <span id="currentTime">00:00</span> / <span id="duration">--:--</span>
-        </div>
-      </div>
-
-      <!-- Verses list -->
-      <section class="verses" id="verses" aria-label="Teks Surat Ad Duha">
-        <!-- Verse items inserted inline for clarity -->
-        <article class="verse" id="v0">
-          <div class="verse-number">Basm</div>
-          <div class="verse-content">
-            <div class="arabic">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
-            <div class="translit">Bismillāhi ar-raḥmāni ar-raḥīm</div>
-            <div class="translation">Dengan nama Allah Yang Maha Pengasih, Maha Penyayang.</div>
-          </div>
-        </article>
-
-        <article class="verse" id="v1">
-          <div class="verse-number">1</div>
-          <div class="verse-content">
-            <div class="arabic">وَالضُّحٰىۙ</div>
-            <div class="translit">waḍ-ḍuḥā</div>
-            <div class="translation">Demi waktu duha (ketika matahari naik sepenggalah),</div>
-          </div>
-        </article>
-
-        <article class="verse" id="v2">
-          <div class="verse-number">2</div>
-          <div class="verse-content">
-            <div class="arabic">وَالَّيْلِ اِذَا سَجٰىۙ</div>
-            <div class="translit">wal-laili iżā sajā</div>
-            <div class="translation">dan demi malam apabila telah sunyi,</div>
-          </div>
-        </article>
-
-        <article class="verse" id="v3">
-          <div class="verse-number">3</div>
-          <div class="verse-content">
-            <div class="arabic">مَا وَدَّعَكَ رَبُّكَ وَمَا قَلٰىۗ</div>
-            <div class="translit">mā wadda’aka rabbuka wa mā qalā</div>
-            <div class="translation">Tuhanmu tidak meninggalkan engkau (Muhammad) dan tidak (pula) membencimu,</div>
-          </div>
-        </article>
-
-        <article class="verse" id="v4">
-          <div class="verse-number">4</div>
-          <div class="verse-content">
-            <div class="arabic">وَلَلْاٰخِرَةُ خَيْرٌ لَّكَ مِنَ الْاُوْلٰىۗ</div>
-            <div class="translit">wa lal-ākhiratu khairul laka minal-ụlā</div>
-            <div class="translation">dan sungguh, yang kemudian itu lebih baik bagimu dari yang permulaan.</div>
-          </div>
-        </article>
-
-        <article class="verse" id="v5">
-          <div class="verse-number">5</div>
-          <div class="verse-content">
-            <div class="arabic">وَلَسَوْفَ يُعْطِيْكَ رَبُّكَ فَتَرْضٰىۗ</div>
-            <div class="translit">wa lasaufa yu’ṭīka rabbuka fa tarḍā</div>
-            <div class="translation">Dan sungguh, kelak Tuhanmu pasti memberikan karunia-Nya kepadamu, sehingga engkau menjadi puas.</div>
-          </div>
-        </article>
-
-        <article class="verse" id="v6">
-          <div class="verse-number">6</div>
-          <div class="verse-content">
-            <div class="arabic">اَلَمْ يَجِدْكَ يَتِيْمًا فَاٰوٰىۖ</div>
-            <div class="translit">a lam yajidka yatīman fa āwā</div>
-            <div class="translation">Bukankah Dia mendapatimu sebagai seorang yatim, lalu Dia melindungi(mu),</div>
-          </div>
-        </article>
-
-        <article class="verse" id="v7">
-          <div class="verse-number">7</div>
-          <div class="verse-content">
-            <div class="arabic">وَوَجَدَكَ ضَاۤلًّا فَهَدٰىۖ</div>
-            <div class="translit">wa wajadaka ḍāllan fa hadā</div>
-            <div class="translation">dan Dia mendapatimu sebagai seorang yang bingung, lalu Dia memberikan petunjuk,</div>
-          </div>
-        </article>
-
-        <article class="verse" id="v8">
-          <div class="verse-number">8</div>
-          <div class="verse-content">
-            <div class="arabic">وَوَجَدَكَ عَاۤىِٕلًا فَاَغْنٰىۗ</div>
-            <div class="translit">wa wajadaka ‘ā`ilan fa agnā</div>
-            <div class="translation">dan Dia mendapatimu sebagai seorang yang kekurangan, lalu Dia memberikan kecukupan.</div>
-          </div>
-        </article>
-
-        <article class="verse" id="v9">
-          <div class="verse-number">9</div>
-          <div class="verse-content">
-            <div class="arabic">فَاَمَّا الْيَتِيْمَ فَلَا تَقْهَرْۗ</div>
-            <div class="translit">fa ammal-yatīma fa lā taq-har</div>
-            <div class="translation">Maka terhadap anak yatim janganlah engkau berlaku sewenang-wenang.</div>
-          </div>
-        </article>
-
-        <article class="verse" id="v10">
-          <div class="verse-number">10</div>
-          <div class="verse-content">
-            <div class="arabic">وَاَمَّا السَّاۤىِٕلَ فَلَا تَنْهَرْ</div>
-            <div class="translit">wa ammas-sā`ila fa lā tan-har</div>
-            <div class="translation">Dan terhadap orang yang meminta-minta janganlah engkau menghardik(nya).</div>
-          </div>
-        </article>
-
-        <article class="verse" id="v11">
-          <div class="verse-number">11</div>
-          <div class="verse-content">
-            <div class="arabic">وَاَمَّا بِنِعْمَةِ رَبِّكَ فَحَدِّثْ</div>
-            <div class="translit">wa ammā bini’mati rabbika fa ḥaddiṡ</div>
-            <div class="translation">Dan terhadap nikmat Tuhanmu hendaklah engkau nyatakan (dengan bersyukur).</div>
-          </div>
-        </article>
-
-      </section>
-
-      <footer class="credits">
-      
-      </footer>
-
+    <div class="verse" data-start="0">
+      <div class="arab">وَالضُّحٰىۙ</div>
+      <div class="latin">waḍ-ḍuḥā</div>
+      <div class="indo">Demi waktu duha (ketika matahari naik sepenggalah),</div>
     </div>
-  </div>
 
-  <script src="adduha.js"></script>
+    <div class="verse" data-start="4">
+      <div class="arab">وَالَّيْلِ اِذَا سَجٰىۙ</div>
+      <div class="latin">wal-laili iżā sajā</div>
+      <div class="indo">dan demi malam apabila telah sunyi,</div>
+    </div>
+
+    <div class="verse" data-start="8">
+      <div class="arab">مَا وَدَّعَكَ رَبُّكَ وَمَا قَلٰىۗ</div>
+      <div class="latin">mā wadda’aka rabbuka wa mā qalā</div>
+      <div class="indo">Tuhanmu tidak meninggalkan engkau dan tidak (pula) membencimu,</div>
+    </div>
+
+    <div class="verse" data-start="13">
+      <div class="arab">وَلَلْاٰخِرَةُ خَيْرٌ لَّكَ مِنَ الْاُوْلٰىۗ</div>
+      <div class="latin">wa lal-ākhiratu khairul laka minal-ụlā</div>
+      <div class="indo">yang kemudian itu lebih baik bagimu dari yang permulaan.</div>
+    </div>
+
+    <div class="verse" data-start="18">
+      <div class="arab">وَلَسَوْفَ يُعْطِيْكَ رَبُّكَ فَتَرْضٰىۗ</div>
+      <div class="latin">wa lasaufa yu’ṭīka rabbuka fa tarḍā</div>
+      <div class="indo">Tuhanmu pasti memberikan karunia sehingga engkau puas.</div>
+    </div>
+
+    <div class="verse" data-start="23">
+      <div class="arab">اَلَمْ يَجِدْكَ يَتِيْمًا فَاٰوٰىۖ</div>
+      <div class="latin">a lam yajidka yatīman fa āwā</div>
+      <div class="indo">Bukankah Dia mendapatimu yatim lalu melindungi?</div>
+    </div>
+
+    <div class="verse" data-start="28">
+      <div class="arab">وَوَجَدَكَ ضَاۤلًّا فَهَدٰىۖ</div>
+      <div class="latin">wa wajadaka ḍāllan fa hadā</div>
+      <div class="indo">dan mendapatimu bingung lalu memberi petunjuk,</div>
+    </div>
+
+    <div class="verse" data-start="33">
+      <div class="arab">وَوَجَدَكَ عَاۤىِٕلًا فَاَغْنٰىۗ</div>
+      <div class="latin">wa wajadaka ‘ā`ilan fa agnā</div>
+      <div class="indo">dan mendapatimu kekurangan lalu memberi kecukupan.</div>
+    </div>
+
+    <div class="verse" data-start="38">
+      <div class="arab">فَاَمَّا الْيَتِيْمَ فَلَا تَقْهَرْۗ</div>
+      <div class="latin">fa ammal-yatīma fa lā taq-har</div>
+      <div class="indo">Maka terhadap anak yatim jangan berlaku sewenang-wenang.</div>
+    </div>
+
+    <div class="verse" data-start="43">
+      <div class="arab">وَاَمَّا السَّاۤىِٕلَ فَلَا تَنْهَرْ</div>
+      <div class="latin">wa ammas-sā`ila fa lā tan-har</div>
+      <div class="indo">Dan peminta-minta jangan kau hardik.</div>
+    </div>
+
+    <div class="verse" data-start="48">
+      <div class="arab">وَاَمَّا بِنِعْمَةِ رَبِّكَ فَحَدِّثْ</div>
+      <div class="latin">wa ammā bini’mati rabbika fa ḥaddiṡ</div>
+      <div class="indo">Dan nikmat Tuhanmu hendaklah engkau nyatakan.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- AUDIO PLAYER -->
+<div id="audioBar">
+  <button id="play">PLAY</button>
+  <button id="pause">PAUSE</button>
+  <button id="stop" class="stop-btn">STOP</button>
+</div>
+
+<audio id="audio">
+  <source src="093-adh-dhuha.mp3" type="audio/mpeg">
+</audio>
+
+<script src="adduha.js"></script>
+
 </body>
 </html>
