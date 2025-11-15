@@ -58,6 +58,7 @@ audio.onended = () => {
   btnPause.disabled = true;
   btnStop.disabled = true;
 };
+
 // --- AUTO STOP KETIKA TAB / HALAMAN TIDAK AKTIF ---
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) {
@@ -77,4 +78,38 @@ window.addEventListener("blur", () => {
   btnPlay.disabled = false;
   btnPause.disabled = true;
   btnStop.disabled = true;
+});
+
+
+
+// =====================================================
+// ====   WAKE LOCK: AGAR LAYAR HP TIDAK MEREDUP   =====
+// =====================================================
+let wakeLock = null;
+
+// Fungsi meminta Wake Lock
+async function requestWakeLock() {
+  try {
+    wakeLock = await navigator.wakeLock.request("screen");
+    console.log("Wake Lock aktif");
+
+    wakeLock.addEventListener("release", () => {
+      console.log("Wake Lock dilepas");
+    });
+
+  } catch (err) {
+    console.log("WakeLock Error:", err.name, err.message);
+  }
+}
+
+// Aktifkan Wake Lock saat halaman dibuka
+if ("wakeLock" in navigator) {
+  requestWakeLock();
+}
+
+// Jika user kembali ke tab, aktifkan lagi
+document.addEventListener("visibilitychange", () => {
+  if (wakeLock !== null && document.visibilityState === "visible") {
+    requestWakeLock();
+  }
 });
