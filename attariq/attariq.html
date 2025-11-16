@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Surat At-Tariq</title>
+
+  <!-- Tipografi elegan -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Amiri:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    /* --- Reset minimal --- */
+    :root{
+      --bg: #f6f7f8;
+      --card: #ffffff;
+      --muted: #6b6b6b;
+      --accent: #0f5132;
+      --accent-2: #0b5b8a;
+      --verse-bg-1: #fbfcfd;
+      --verse-bg-2: #f3f6f5;
+      --verse-number-bg: rgba(15,81,50,0.08);
+      --shadow: 0 6px 18px rgba(11,20,30,0.06);
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    html,body{
+      height:100%;
+      margin:0;
+      background: linear-gradient(180deg, #f8fbfa 0%, var(--bg) 100%);
+      color: #111827;
+    }
+
+    /* FIX UTAMA — padding-bottom agar ayat tidak ketutup */
+    .container{
+     max-width: 920px;
+     margin: 28px auto;
+     padding: 22px;
+     padding-bottom: 140px !important; /* FIX aman */
+    }
+
+    .card{
+      background: var(--card);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      padding: 20px;
+      overflow: hidden;
+    }
+
+    header.page-header{
+      display:flex;
+      gap:16px;
+      align-items:center;
+      margin-bottom: 18px;
+      flex-wrap:wrap;
+    }
+
+    .title{
+      display:flex;
+      flex-direction:column;
+    }
+
+    .title h1{
+      margin:0;
+      font-size:20px;
+      font-weight:700;
+      letter-spacing: -0.2px;
+    }
+
+    .title p{
+      margin: 4px 0 0 0;
+      color: var(--muted);
+      font-size:13px;
+    }
+
+    /* ------- FIXED PLAYER BOTTOM ------- */
+    .player-fixed{
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #ffffff;
+      box-shadow: 0 -4px 14px rgba(0,0,0,0.08);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      z-index: 99;
+    }
+
+    .controls{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex-shrink: 0;
+    }
+
+    .btn {
+      border: none;
+      background: linear-gradient(180deg, #ffffff, #f6f9f8);
+      padding: 10px 14px;
+      border-radius: 10px;
+      box-shadow: 0 6px 14px rgba(16,24,32,0.06);
+      cursor: pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-weight:600;
+      font-size:14px;
+      color: #0b3b2b;
+    }
+
+    .btn:active{ transform: translateY(1px); }
+    .btn[disabled]{ opacity:0.55; cursor:not-allowed; transform:none; }
+
+    .btn.play { background: linear-gradient(180deg,#e9fff3,#dff7ec); color: #055b35; }
+    .btn.pause { background: linear-gradient(180deg,#fff8e9,#fff2d9); color: #6b4b00; }
+    .btn.stop { background: linear-gradient(180deg,#fff6f6,#ffecec); color: #7a1f1f; }
+
+    .progress{
+      height:10px;
+      background: linear-gradient(180deg,#eef3f2,#f6fbfa);
+      border-radius: 999px;
+      overflow:hidden;
+      flex:1;
+      min-width:120px;
+      display:flex;
+      align-items:center;
+      padding:2px;
+    }
+
+    .progress > i{
+      height:6px;
+      width:0%;
+      background: linear-gradient(90deg,var(--accent), var(--accent-2));
+      display:block;
+      border-radius:999px;
+      transition: width 0.2s linear;
+    }
+
+    .time{
+      font-size:13px;
+      color:var(--muted);
+      min-width:72px;
+      text-align:right;
+      flex-shrink:0;
+    }
+
+    /* Verses */
+    .verses{
+      margin-top:18px;
+      display:grid;
+      gap:12px;
+    }
+
+    .verse{
+      display:grid;
+      grid-template-columns: auto 1fr;
+      gap:12px;
+      padding:14px;
+      border-radius:12px;
+      align-items:start;
+    }
+
+    .verse:nth-child(odd){ background: var(--verse-bg-1); }
+    .verse:nth-child(even){ background: var(--verse-bg-2); }
+
+    .verse-number{
+      width:46px;
+      height:46px;
+      border-radius:12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:700;
+      color: var(--accent);
+      background: var(--verse-number-bg);
+      font-size:14px;
+      flex-shrink:0;
+    }
+
+    .verse-content{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+
+    .arabic{
+      font-family: "Amiri", serif;
+      font-size:22px;
+      line-height:1.6;
+      text-align: right;
+      direction: rtl;
+      padding-right:6px;
+      color:#0b2b22;
+    }
+
+    .translit{
+      font-size:14px;
+      color: #25403a;
+      font-weight:600;
+    }
+
+    .translation{
+      font-size:14px;
+      color: #444c4f;
+      opacity:0.95;
+    }
+
+    footer.credits{
+      margin-top:14px;
+      font-size:13px;
+      color:var(--muted);
+      text-align:center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- AUDIO HIDDEN -->
+  <audio id="audio" preload="none">
+    <source src="./086-at-tariq.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- FIXED PLAYER -->
+  <div class="player-fixed">
+    <div class="controls">
+      <button class="btn play" id="btnPlay">▶ Play</button>
+      <button class="btn pause" id="btnPause" disabled>❚❚ Pause</button>
+      <button class="btn stop" id="btnStop" disabled>■ Stop</button>
+    </div>
+
+    <div class="progress">
+      <i id="progressBar"></i>
+    </div>
+
+    <div class="time">
+      <span id="currentTime">00:00</span> / <span id="duration">--:--</span>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="container">
+    <div class="card">
+
+      <header class="page-header">
+        <div class="title">
+          <h1>Surat At-Tariq</h1>
+        </div>
+      </header>
+
+      <!-- AYAT LIST -->
+      <section class="verses">
+
+        <!-- AYAT DIPERTAHANKAN (TIDAK DIUBAH SAMA SEKALI) -->
+        <!-- Basmalah -->
+        <article class="verse">
+          <div class="verse-number">Basmalah</div>
+          <div class="verse-content">
+            <div class="arabic">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
+            <div class="translit">Bismillahirrahmanirrahim</div>
+            <div class="translation">Dengan menyebut nama Allah Yang Maha Pengasih lagi Maha Penyayang</div>
+          </div>
+        </article>
+
+        <!-- Ayat  -->
+        <article class="verse">
+          <div class="verse-number">1</div>
+          <div class="verse-content">
+            <div class="arabic">وَالسَّمَاۤءِ وَالطَّارِقِۙ</div>
+            <div class="translit">was-samā`i waṭ-ṭāriq</div>
+            <div class="translation">Demi langit dan yang datang pada malam hari.</div>
+          </div>
+        </article>
+
+        <!-- Ayat  -->
+        <article class="verse">
+          <div class="verse-number">2</div>
+          <div class="verse-content">
+            <div class="arabic">وَمَآ اَدْرٰىكَ مَا الطَّارِقُۙ</div>
+            <div class="translit">wa mā adrāka maṭ-ṭāriq</div>
+            <div class="translation">Dan tahukah kamu apakah yang datang pada malam hari itu?</div>
+          </div>
+        </article>
+
+        <!-- Ayat  -->
+        <article class="verse">
+          <div class="verse-number">3</div>
+          <div class="verse-content">
+            <div class="arabic">النَّجْمُ الثَّاقِبُۙ</div>
+            <div class="translit">an-najmuṡ-ṡāqib</div>
+            <div class="translation">(yaitu) bintang yang bersinar tajam,</div>
+          </div>
+        </article>
+
+        <!-- Ayat  -->
+        <article class="verse">
+          <div class="verse-number">4</div>
+          <div class="verse-content">
+            <div class="arabic">اِنْ كُلُّ نَفْسٍ لَّمَّا عَلَيْهَا حَافِظٌۗ</div>
+            <div class="translit">ing kullu nafsil lammā ‘alaihā ḥāfiẓ</div>
+            <div class="translation">setiap orang pasti ada penjaganya.</div>
+          </div>
+        </article>
+
+        <!-- Ayat  -->
+        <article class="verse">
+          <div class="verse-number">5</div>
+          <div class="verse-content">
+            <div class="arabic">فَلْيَنْظُرِ الْاِنْسَانُ مِمَّ خُلِقَ</div>
+            <div class="translit">falyanẓuril-insānu mimma khuliq</div>
+            <div class="translation">Maka hendaklah manusia memperhatikan dari apa dia diciptakan.</div>
+          </div>
+        </article>
+
+        <!-- Ayat  -->
+        <article class="verse">
+          <div class="verse-number">6</div>
+          <div class="verse-content">
+            <div class="arabic">خُلِقَ مِنْ مَّاۤءٍ دَافِقٍۙ</div>
+            <div class="translit">khuliqa mim mā`in dāfiq</div>
+            <div class="translation">Dia diciptakan dari air (mani) yang terpancar,</div>
+          </div>
+        </article>
+
+        <!-- Ayat  -->
+        <article class="verse">
+          <div class="verse-number">7</div>
+          <div class="verse-content">
+            <div class="arabic">يَّخْرُجُ مِنْۢ بَيْنِ الصُّلْبِ وَالتَّرَاۤىِٕبِۗ</div>
+            <div class="translit">yakhruju mim bainiṣ-ṣulbi wat-tarā`ib</div>
+            <div class="translation">yang keluar dari antara tulang punggung (sulbi) dan tulang dada.</div>
+          </div>
+        </article>
+
+        <!-- Ayat  -->
+        <article class="verse">
+          <div class="verse-number">8</div>
+          <div class="verse-content">
+            <div class="arabic">اِنَّهٗ عَلٰى رَجْعِهٖ لَقَادِرٌۗ</div>
+            <div class="translit">innahụ ‘alā raj’ihī laqādir</div>
+            <div class="translation">Sungguh, Allah benar-benar kuasa untuk mengembalikannya (hidup setelah mati).</div>
+          </div>
+        </article>
+
+        <!-- Ayat  -->
+        <article class="verse">
+          <div class="verse-number">9</div>
+          <div class="verse-content">
+            <div class="arabic">يَوْمَ تُبْلَى السَّرَاۤىِٕرُۙ</div>
+            <div class="translit">yauma tublas-sarā`ir</div>
+            <div class="translation">Pada hari ditampakkan segala rahasia,</div>
+          </div>
+        </article>
+
+        <!-- Ayat  -->
+        <article class="verse">
+          <div class="verse-number">10</div>
+          <div class="verse-content">
+            <div class="arabic">فَمَا لَهٗ مِنْ قُوَّةٍ وَّلَا نَاصِرٍۗ</div>
+            <div class="translit">fa mā lahụ ming quwwatiw wa lā nāṣir</div>
+            <div class="translation">maka manusia tidak lagi mempunyai suatu kekuatan dan tidak (pula) ada penolong.</div>
+          </div>
+        </article>
+
+        <!-- Ayat  -->
+        <article class="verse">
+          <div class="verse-number">11</div>
+          <div class="verse-content">
+            <div class="arabic">وَالسَّمَاۤءِ ذَاتِ الرَّجْعِۙ</div>
+            <div class="translit">was-samā`i żātir-raj’</div>
+            <div class="translation">Demi langit yang mengandung hujan,</div>
+          </div>
+        </article>
+
+        <!-- Ayat  -->
+        <article class="verse">
+          <div class="verse-number">12</div>
+          <div class="verse-content">
+            <div class="arabic">وَالْاَرْضِ ذَاتِ الصَّدْعِۙ</div>
+            <div class="translit">wal-arḍi żātiṣ-ṣad’</div>
+            <div class="translation">dan bumi yang mempunyai tumbuh-tumbuhan,</div>
+          </div>
+        </article>
+
+        <!-- Ayat  -->
+        <article class="verse">
+          <div class="verse-number">13</div>
+          <div class="verse-content">
+            <div class="arabic">اِنَّهٗ لَقَوْلٌ فَصْلٌۙ</div>
+            <div class="translit">innahụ laqaulun faṣl</div>
+            <div class="translation">sungguh, (Al-Qur’an) itu benar-benar firman pemisah (antara yang hak dan yang batil),</div>
+          </div>
+        </article>
+
+        <!-- Ayat  -->
+        <article class="verse">
+          <div class="verse-number">14</div>
+          <div class="verse-content">
+            <div class="arabic">وَّمَا هُوَ بِالْهَزْلِۗ</div>
+            <div class="translit">wa mā huwa bil-hazl</div>
+            <div class="translation">dan (Al-Qur’an) itu bukanlah sendagurauan.</div>
+          </div>
+        </article>
+
+        <!-- Ayat  -->
+        <article class="verse">
+          <div class="verse-number">15</div>
+          <div class="verse-content">
+            <div class="arabic">اِنَّهُمْ يَكِيْدُوْنَ كَيْدًاۙ</div>
+            <div class="translit">innahum yakīdụna kaidā</div>
+            <div class="translation">Sungguh, mereka (orang kafir) merencanakan tipu daya yang jahat.</div>
+          </div>
+        </article>
+
+        <!-- Ayat  -->
+        <article class="verse">
+          <div class="verse-number">16</div>
+          <div class="verse-content">
+            <div class="arabic">وَّاَكِيْدُ كَيْدًاۖ</div>
+            <div class="translit">wa akīdu kaidā</div>
+            <div class="translation">Dan Aku pun membuat rencana (tipu daya) yang jitu.</div>
+          </div>
+        </article>
+
+        <!-- Ayat  -->
+        <article class="verse">
+          <div class="verse-number">17</div>
+          <div class="verse-content">
+            <div class="arabic">فَمَهِّلِ الْكٰفِرِيْنَ اَمْهِلْهُمْ رُوَيْدًا</div>
+            <div class="translit">fa mahhilil-kāfirīna am-hil-hum ruwaidā</div>
+            <div class="translation">Karena itu berilah penangguhan kepada orang-orang kafir itu. Berilah mereka itu kesempatan untuk sementara waktu.</div>
+          </div>
+        </article>
+
+
+      </section>
+
+    </div>
+  </div>
+
+  <script src="adduha.js"></script>
+</body>
+</html>
