@@ -1,0 +1,1015 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Surat Yasin</title>
+
+  <!-- Tipografi elegan -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Amiri:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg: #f6f7f8;
+      --card: #ffffff;
+      --muted: #6b6b6b;
+      --accent: #0f5132;
+      --accent-2: #0b5b8a;
+      --verse-bg-1: #fbfcfd;
+      --verse-bg-2: #f3f6f5;
+      --verse-number-bg: rgba(15,81,50,0.08);
+      --shadow: 0 6px 18px rgba(11,20,30,0.06);
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    html,body{
+      height:100%;
+      margin:0;
+      background: linear-gradient(180deg, #f8fbfa 0%, var(--bg) 100%);
+      color: #111827;
+    }
+
+    .container{
+      max-width: 920px;
+      margin: 28px auto;
+      padding: 22px;
+      padding-bottom: 20px !important;
+    }
+
+    .card{
+      background: var(--card);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      padding: 20px;
+    }
+
+    header.page-header{
+      display:flex;
+      gap:16px;
+      align-items:center;
+      margin-bottom: 18px;
+      flex-wrap:wrap;
+    }
+
+    .title h1{
+      margin:0;
+      font-size:20px;
+      font-weight:700;
+    }
+
+    /* PLAYER FIXED */
+    .player-fixed{
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: #ffffff;
+      box-shadow: 0 -4px 14px rgba(0,0,0,0.08);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      z-index: 99;
+    }
+
+    .controls{
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+
+    .btn{
+      border:none;
+      background: linear-gradient(180deg,#ffffff,#f6f9f8);
+      padding:10px 14px;
+      border-radius:10px;
+      box-shadow:0 6px 14px rgba(16,24,32,0.06);
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-weight:600;
+      font-size:14px;
+      color:#0b3b2b;
+    }
+
+    .btn.play { background: linear-gradient(180deg,#e9fff3,#dff7ec); color:#055b35; }
+    .btn.pause{ background: linear-gradient(180deg,#fff8e9,#fff2d9); color:#6b4b00; }
+    .btn.stop { background: linear-gradient(180deg,#fff6f6,#ffecec); color:#7a1f1f; }
+
+    .btn:active{ transform:translateY(1px); }
+    .btn[disabled]{ opacity:.55; cursor:not-allowed; }
+
+    .progress{
+      height:10px; background:linear-gradient(180deg,#eef3f2,#f6fbfa);
+      border-radius:999px; overflow:hidden;
+      flex:1; min-width:120px;
+      padding:2px; display:flex; align-items:center;
+    }
+
+    .progress > i{
+      height:6px; width:0%;
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      border-radius:999px;
+      transition:width .2s linear;
+    }
+
+    .time{ font-size:13px; color:var(--muted); min-width:72px; text-align:right; }
+
+    /* Verses */
+    .verses{ margin-top:18px; display:grid; gap:12px; }
+
+    .verse{
+      display:grid;
+      grid-template-columns:auto 1fr;
+      gap:5px;
+      padding:14px;
+      border-radius:12px;
+    }
+
+    .verse:nth-child(odd){ background:var(--verse-bg-1); }
+    .verse:nth-child(even){ background:var(--verse-bg-2); }
+
+    .verse-number{
+      width:46px; height:46px;
+      border-radius:12px;
+      display:flex; align-items:center; justify-content:center;
+      font-weight:700; font-size:14px;
+      background:var(--verse-number-bg);
+      color:var(--accent);
+    }
+
+    .verse-content{ display:flex; flex-direction:column; gap:8px; }
+
+    .arabic{
+      font-family:"Amiri", serif;
+      font-size:22px; line-height:1.6;
+      text-align:right; direction:rtl;
+      padding-right:6px; color:#0b2b22;
+    }
+
+    .translit{ font-size:14px; color:#25403a; font-weight:600; }
+    .translation{ font-size:14px; color:#444c4f; opacity:.95; }
+  </style>
+</head>
+
+<body>
+
+  <!-- CONTENT -->
+  <div class="container">
+    <div class="card">
+      <header class="page-header">
+        <div class="title">
+          <h1>Surat Yasin</h1>
+        </div>
+      </header>
+
+      <section class="verses">
+
+        <!-- Basmalah -->
+        <article class="verse">
+          <div class="verse-number">Basmalah</div>
+          <div class="verse-content">
+            <div class="arabic">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
+            <div class="translit">Bismillahirrahmanirrahim</div>
+            <div class="translation">Dengan menyebut nama Allah Yang Maha Pengasih lagi Maha Penyayang</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">1</div>
+          <div class="verse-content">
+            <div class="arabic">يٰسۤۚ ۝١</div>
+            <div class="translit">yâ sîn</div>
+            <div class="translation">Yā Sīn.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">2</div>
+          <div class="verse-content">
+            <div class="arabic">وَالْقُرْاٰنِ الْحَكِيْمِۙ ۝٢</div>
+            <div class="translit">wal-qur'ânil-ḫakîm</div>
+            <div class="translation">Demi Al-Qur’an yang penuh hikmah,</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">3</div>
+          <div class="verse-content">
+            <div class="arabic">اِنَّكَ لَمِنَ الْمُرْسَلِيْنَۙ ۝٣</div>
+            <div class="translit">innaka laminal-mursalîn</div>
+            <div class="translation">sesungguhnya engkau (Nabi Muhammad) benar-benar salah seorang dari rasul-rasul</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">4</div>
+          <div class="verse-content">
+            <div class="arabic">عَلٰى صِرَاطٍ مُّسْتَقِيْمٍۗ ۝٤</div>
+            <div class="translit">‘alâ shirâthim mustaqîm</div>
+            <div class="translation">(yang berada) di atas jalan yang lurus,</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">5</div>
+          <div class="verse-content">
+            <div class="arabic">تَنْزِيْلَ الْعَزِيْزِ الرَّحِيْمِۙ ۝٥</div>
+            <div class="translit">tanzîlal-‘azîzir-raḫîm</div>
+            <div class="translation">(sebagai wahyu) yang diturunkan oleh (Allah) Yang Mahaperkasa lagi Maha Penyayang,</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">6</div>
+          <div class="verse-content">
+            <div class="arabic">لِتُنْذِرَ قَوْمًا مَّآ اُنْذِرَ اٰبَاۤؤُهُمْ فَهُمْ غٰفِلُوْنَ</div>
+            <div class="translit">litunżira qaumam mā unżira ābā`uhum fa hum gāfilụn</div>
+            <div class="translation">agar engkau memberi peringatan kepada suatu kaum yang nenek moyangnya belum pernah diberi peringatan, karena itu mereka lalai.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">7</div>
+          <div class="verse-content">
+            <div class="arabic">لَقَدْ حَقَّ الْقَوْلُ عَلٰٓى اَكْثَرِهِمْ فَهُمْ لَا يُؤْمِنُوْنَ</div>
+            <div class="translit">laqad ḥaqqal-qaulu 'alā akṡarihim fa hum lā yu`minụn</div>
+            <div class="translation">Sungguh, pasti berlaku perkataan (hukuman) terhadap kebanyakan mereka, karena mereka tidak beriman.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">8</div>
+          <div class="verse-content">
+            <div class="arabic">اِنَّا جَعَلْنَا فِيْٓ اَعْنَاقِهِمْ اَغْلٰلًا فَهِيَ اِلَى الْاَذْقَانِ فَهُمْ مُّقْمَحُوْنَ</div>
+            <div class="translit">innā ja'alnā fī a'nāqihim aglālan fa hiya ilal-ażqāni fa hum muqmaḥụn</div>
+            <div class="translation">Sungguh, Kami telah memasang belenggu di leher mereka, lalu tangan mereka (diangkat) ke dagu, karena itu mereka tertengadah</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">9</div>
+          <div class="verse-content">
+            <div class="arabic">وَجَعَلْنَا مِنْۢ بَيْنِ اَيْدِيْهِمْ سَدًّا وَّمِنْ خَلْفِهِمْ سَدًّا فَاَغْشَيْنٰهُمْ فَهُمْ لَا يُبْصِرُوْنَ</div>
+            <div class="translit">wa ja'alnā mim baini aidīhim saddaw wa min khalfihim saddan fa agsyaināhum fa hum lā yubṣirụn</div>
+            <div class="translation">Dan Kami jadikan di hadapan mereka sekat (dinding) dan di belakang mereka juga sekat, dan Kami tutup (mata) mereka sehingga mereka tidak dapat melihat</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">10</div>
+          <div class="verse-content">
+            <div class="arabic">وَسَوَاۤءٌ عَلَيْهِمْ ءَاَنْذَرْتَهُمْ اَمْ لَمْ تُنْذِرْهُمْ لَا يُؤْمِنُوْنَ</div>
+            <div class="translit">wa sawā`un 'alaihim a anżartahum am lam tunżir-hum lā yu`minụn</div>
+            <div class="translation">Dan sama saja bagi mereka, apakah engkau memberi peringatan kepada mereka atau engkau tidak memberi peringatan kepada mereka, mereka tidak akan beriman juga</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">11</div>
+          <div class="verse-content">
+            <div class="arabic">اِنَّمَا تُنْذِرُ مَنِ اتَّبَعَ الذِّكْرَ وَخَشِيَ الرَّحْمٰنَ بِالْغَيْبِۚ فَبَشِّرْهُ بِمَغْفِرَةٍ وَّاَجْرٍ كَرِيْمٍ</div>
+            <div class="translit">innamā tunżiru manittaba'aż-żikra wa khasyiyar-raḥmāna bil-gaīb, fa basysyir-hu bimagfiratiw wa ajring karīm</div>
+            <div class="translation">Sesungguhnya engkau hanya memberi peringatan kepada orang-orang yang mau mengikuti peringatan dan yang takut kepada Tuhan Yang Maha Pengasih, walaupun mereka tidak melihat-Nya. Maka berilah mereka kabar gembira dengan ampunan dan pahala yang mulia</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">12</div>
+          <div class="verse-content">
+            <div class="arabic">اِنَّا نَحْنُ نُحْيِ الْمَوْتٰى وَنَكْتُبُ مَا قَدَّمُوْا وَاٰثَارَهُمْۗ وَكُلَّ شَيْءٍ اَحْصَيْنٰهُ فِيْٓ اِمَامٍ مُّبِيْنٍ</div>
+            <div class="translit">innā naḥnu nuḥyil-mautā wa naktubu mā qaddamụ wa āṡārahum, wa kulla syai`in aḥṣaināhu fī imāmim mubīn</div>
+            <div class="translation">Sungguh, Kamilah yang menghidupkan orang-orang yang mati, dan Kamilah yang mencatat apa yang telah mereka kerjakan dan bekas-bekas yang mereka (tinggalkan). Dan segala sesuatu Kami kumpulkan dalam Kitab yang jelas (Lauh Mahfuzh).</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">13</div>
+          <div class="verse-content">
+            <div class="arabic">وَاضْرِبْ لَهُمْ مَّثَلًا اَصْحٰبَ الْقَرْيَةِۘ اِذْ جَاۤءَهَا الْمُرْسَلُوْنَۚ</div>
+            <div class="translit">waḍrib lahum maṡalan aṣ-ḥābal-qaryah, iż jā`ahal-mursalụn</div>
+            <div class="translation">Buatlah suatu perumpamaan bagi mereka (kaum kafir Makkah), yaitu penduduk suatu negeri, ketika para utusan datang kepada mereka,</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">14</div>
+          <div class="verse-content">
+            <div class="arabic">اِذْ اَرْسَلْنَآ اِلَيْهِمُ اثْنَيْنِ فَكَذَّبُوْهُمَا فَعَزَّزْنَا بِثَالِثٍ فَقَالُوْٓا اِنَّآ اِلَيْكُمْ مُّرْسَلُوْنَ ۝١٤</div>
+            <div class="translit">idz arsalnâ ilaihimutsnaini fa kadzdzabûhumâ fa ‘azzaznâ bitsâlitsin fa qâlû innâ ilaikum mursalûn</div>
+            <div class="translation">(yaitu) ketika Kami mengutus kepada mereka dua orang utusan, lalu mereka mendustakan keduanya. Kemudian Kami menguatkan dengan (utusan) yang ketiga. Maka, ketiga (utusan itu) berkata, “Sesungguhnya kami adalah orang-orang yang diutus kepadamu.”</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">15</div>
+          <div class="verse-content">
+            <div class="arabic">قَالُوْا مَآ اَنْتُمْ اِلَّا بَشَرٌ مِّثْلُنَاۙ وَمَآ اَنْزَلَ الرَّحْمٰنُ مِنْ شَيْءٍۙ اِنْ اَنْتُمْ اِلَّا تَكْذِبُوْنَ ۝١٥</div>
+            <div class="translit">qâlû mâ antum illâ basyarum mitslunâ wa mâ anzalar-raḫmânu min syai'in in antum illâ takdzibûn</div>
+            <div class="translation">Mereka (penduduk negeri) menjawab, “Kamu tidak lain hanyalah manusia seperti kami. (Allah) Yang Maha Pengasih tidak (pernah) menurunkan sesuatu apa pun. Kamu hanyalah berdusta.”</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">16</div>
+          <div class="verse-content">
+            <div class="arabic">قَالُوْا رَبُّنَا يَعْلَمُ اِنَّآ اِلَيْكُمْ لَمُرْسَلُوْنَ ۝١٦</div>
+            <div class="translit">qâlû rabbunâ ya‘lamu innâ ilaikum lamursalûn</div>
+            <div class="translation">Mereka (para rasul) berkata, “Tuhan kami mengetahui bahwa sesungguhnya kami benar-benar para utusan(-Nya) kepadamu</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">17</div>
+          <div class="verse-content">
+            <div class="arabic">وَمَا عَلَيْنَآ اِلَّا الْبَلٰغُ الْمُبِيْنُ ۝١٧</div>
+            <div class="translit">وَمَا عَلَيْنَآ اِلَّا الْبَلٰغُ الْمُبِيْنُ ۝١٧
+wa mâ ‘alainâ illal-balâghul-mubîn</div>
+            <div class="translation">Adapun kewajiban kami hanyalah menyampaikan (perintah Allah) yang jelas.”</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">18</div>
+          <div class="verse-content">
+            <div class="arabic">قَالُوْٓا اِنَّا تَطَيَّرْنَا بِكُمْۚ لَىِٕنْ لَّمْ تَنْتَهُوْا لَنَرْجُمَنَّكُمْ وَلَيَمَسَّنَّكُمْ مِّنَّا عَذَابٌ اَلِيْمٌ ۝١٨</div>
+            <div class="translit">qâlû innâ tathayyarnâ bikum, la'il lam tantahû lanarjumannakum wa layamassannakum minnâ ‘adzâbun alîm</div>
+            <div class="translation">Mereka (penduduk negeri) menjawab, “Sesungguhnya kami bernasib malang karenamu. Sungguh, jika kamu tidak berhenti (menyeru kami), niscaya kami merajam kamu dan kamu pasti akan merasakan siksaan yang pedih dari kami.”</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">19</div>
+          <div class="verse-content">
+            <div class="arabic">قَالُوْا طَاۤىِٕرُكُمْ مَّعَكُمْۗ اَىِٕنْ ذُكِّرْتُمْۗ بَلْ اَنْتُمْ قَوْمٌ مُّسْرِفُوْنَ ۝١٩</div>
+            <div class="translit">qâlû thâ'irukum ma‘akum, a in dzukkirtum, bal antum qaumum musrifûn</div>
+            <div class="translation">Mereka (para rasul) berkata, “Kemalangan kamu itu (akibat perbuatan) kamu sendiri. Apakah karena kamu diberi peringatan, (lalu kamu menjadi malang)? Sebenarnya kamu adalah kaum yang melampaui batas.”</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">20</div>
+          <div class="verse-content">
+            <div class="arabic">وَجَاۤءَ مِنْ اَقْصَا الْمَدِيْنَةِ رَجُلٌ يَّسْعٰى قَالَ يٰقَوْمِ اتَّبِعُوا الْمُرْسَلِيْنَۙ ۝٢٠</div>
+            <div class="translit">wa jâ'a min aqshal-madînati rajuluy yas‘â qâla yâ qaumittabi‘ul-mursalîn</div>
+            <div class="translation">Datanglah dengan bergegas dari ujung kota, seorang laki-laki. Dia berkata, “Wahai kaumku, ikutilah para rasul itu!</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">21</div>
+          <div class="verse-content">
+            <div class="arabic">اتَّبِعُوْا مَنْ لَّا يَسْـَٔلُكُمْ اَجْرًا وَّهُمْ مُّهْتَدُوْنَ ۝٢١</div>
+            <div class="translit">ittabi‘û mal lâ yas'alukum ajraw wa hum muhtadûn</div>
+            <div class="translation">Ikutilah orang yang tidak meminta imbalan (dalam berdakwah) kepadamu. Mereka adalah orang-orang yang mendapat petunjuk.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">22</div>
+          <div class="verse-content">
+            <div class="arabic">وَمَا لِيَ لَآ اَعْبُدُ الَّذِيْ فَطَرَنِيْ وَاِلَيْهِ تُرْجَعُوْنَ ۝٢٢</div>
+            <div class="translit">wa mâ liya lâ a‘budulladzî fatharanî wa ilaihi turja‘ûn</div>
+            <div class="translation">Apa (alasanku) untuk tidak menyembah (Allah) yang telah menciptakanku dan hanya kepada-Nyalah kamu akan dikembalikan.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">23</div>
+          <div class="verse-content">
+            <div class="arabic">ءَاَتَّخِذُ مِنْ دُوْنِهٖٓ اٰلِهَةً اِنْ يُّرِدْنِ الرَّحْمٰنُ بِضُرٍّ لَّا تُغْنِ عَنِّيْ شَفَاعَتُهُمْ شَيْـًٔا وَّلَا يُنْقِذُوْنِۚ ۝٢٣</div>
+            <div class="translit">a attakhidzu min dûnihî âlihatan iy yuridnir-raḫmânu bidlurril lâ tughni ‘annî syafâ‘atuhum syai'aw wa lâ yungqidzûn</div>
+            <div class="translation">Mengapa aku (harus) mengambil sembahan-sembahan selain-Nya? Jika (Allah) Yang Maha Pengasih menghendaki bencana terhadapku, pasti pertolongan mereka tidak berguna sama sekali bagi diriku dan mereka (juga) tidak dapat menyelamatkanku.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">24</div>
+          <div class="verse-content">
+            <div class="arabic">اِنِّيْٓ اِذًا لَّفِيْ ضَلٰلٍ مُّبِيْنٍ ۝٢٤</div>
+            <div class="translit">innî idzal lafî dlalâlim mubîn</div>
+            <div class="translation">Sesungguhnya aku (jika berbuat) begitu, pasti berada dalam kesesatan yang nyata.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">25</div>
+          <div class="verse-content">
+            <div class="arabic">اِنِّيْٓ اٰمَنْتُ بِرَبِّكُمْ فَاسْمَعُوْنِۗ ۝٢٥</div>
+            <div class="translit">innî âmantu birabbikum fasma‘ûn</div>
+            <div class="translation">Sesungguhnya aku telah beriman kepada Tuhanmu. Maka, dengarkanlah (pengakuan)-ku.”</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">26</div>
+          <div class="verse-content">
+            <div class="arabic">قِيْلَ ادْخُلِ الْجَنَّةَۗ قَالَ يٰلَيْتَ قَوْمِيْ يَعْلَمُوْنَۙ ۝٢٦</div>
+            <div class="translit">qîladkhulil-jannah, qâla yâ laita qaumî ya‘lamûn</div>
+            <div class="translation">Dikatakan (kepadanya), “Masuklah ke surga.” Dia (laki-laki itu) berkata, “Aduhai, sekiranya kaumku mengetahui</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">27</div>
+          <div class="verse-content">
+            <div class="arabic">بِمَا غَفَرَ لِيْ رَبِّيْ وَجَعَلَنِيْ مِنَ الْمُكْرَمِيْنَ ۝٢٧</div>
+            <div class="translit">bimâ ghafara lî rabbî wa ja‘alanî minal-mukramîn</div>
+            <div class="translation">(bagaimana) Tuhanku mengampuniku dan menjadikanku termasuk orang-orang yang dimuliakan.”</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">28</div>
+          <div class="verse-content">
+            <div class="arabic">۞ وَمَآ اَنْزَلْنَا عَلٰى قَوْمِهٖ مِنْۢ بَعْدِهٖ مِنْ جُنْدٍ مِّنَ السَّمَاۤءِ وَمَا كُنَّا مُنْزِلِيْنَ ۝٢٨</div>
+            <div class="translit">wa mâ anzalnâ ‘alâ qaumihî mim ba‘dihî min jundim minas-samâ'i wa mâ kunnâ munzilîn</div>
+            <div class="translation">Setelah dia (dibunuh), Kami tidak menurunkan satu pasukan pun dari langit kepada kaumnya dan Kami tidak perlu menurunkannya.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">29</div>
+          <div class="verse-content">
+            <div class="arabic">اِنْ كَانَتْ اِلَّا صَيْحَةً وَّاحِدَةً فَاِذَا هُمْ خٰمِدُوْنَ ۝٢٩</div>
+            <div class="translit">ing kânat illâ shaiḫataw wâḫidatan fa idzâ hum khâmidûn</div>
+            <div class="translation">(Azab mereka) itu cukup dengan satu teriakan saja. Maka, seketika itu mereka mati.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">30</div>
+          <div class="verse-content">
+            <div class="arabic">يٰحَسْرَةً عَلَى الْعِبَادِۚ مَا يَأْتِيْهِمْ مِّنْ رَّسُوْلٍ اِلَّا كَانُوْا بِهٖ يَسْتَهْزِءُوْنَ ۝٣٠</div>
+            <div class="translit">yâ ḫasratan ‘alal-‘ibâd, mâ ya'tîhim mir rasûlin illâ kânû bihî yastahzi'ûn</div>
+            <div class="translation">Alangkah besar penyesalan diri para hamba itu. Setiap datang seorang rasul kepada mereka, mereka selalu memperolok-olokkannya.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">31</div>
+          <div class="verse-content">
+            <div class="arabic">اَلَمْ يَرَوْا كَمْ اَهْلَكْنَا قَبْلَهُمْ مِّنَ الْقُرُوْنِ اَنَّهُمْ اِلَيْهِمْ لَا يَرْجِعُوْنَ ۝٣١</div>
+            <div class="translit">a lam yarau kam ahlaknâ qablahum minal-qurûni annahum ilaihim lâ yarji‘ûn</div>
+            <div class="translation">Tidakkah mereka mengetahui berapa banyak umat sebelum mereka yang telah Kami binasakan. Mereka (setelah binasa) tidak ada yang kembali kepada mereka (di dunia).</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">32</div>
+          <div class="verse-content">
+            <div class="arabic">وَاِنْ كُلٌّ لَّمَّا جَمِيْعٌ لَّدَيْنَا مُحْضَرُوْنَࣖ ۝٣٢</div>
+            <div class="translit">wa ing kullul lammâ jamî‘ul ladainâ muḫdlarûn</div>
+            <div class="translation">Tidak ada satu (umat) pun, kecuali semuanya akan dihadirkan kepada Kami (untuk dihisab).</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">33</div>
+          <div class="verse-content">
+            <div class="arabic">وَاٰيَةٌ لَّهُمُ الْاَرْضُ الْمَيْتَةُۖ اَحْيَيْنٰهَا وَاَخْرَجْنَا مِنْهَا حَبًّا فَمِنْهُ يَأْكُلُوْنَ ۝٣٣</div>
+            <div class="translit">wa âyatul lahumul-ardlul-maitatu aḫyainâhâ wa akhrajnâ min-hâ ḫabban fa min-hu ya'kulûn</div>
+            <div class="translation">Suatu tanda (kekuasaan-Nya) bagi mereka adalah bumi yang mati (tandus lalu) Kami menghidupkannya dan mengeluarkan darinya biji-bijian kemudian dari (biji-bijian) itu mereka makan.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">34</div>
+          <div class="verse-content">
+            <div class="arabic">وَجَعَلْنَا فِيْهَا جَنّٰتٍ مِّنْ نَّخِيْلٍ وَّاَعْنَابٍ وَّفَجَّرْنَا فِيْهَا مِنَ الْعُيُوْنِۙ ۝٣٤</div>
+            <div class="translit">wa ja‘alnâ fîhâ jannâtim min nakhîliw wa a‘nâbiw wa fajjarnâ fîhâ minal-‘uyûn</div>
+            <div class="translation">Kami (juga) menjadikan padanya (bumi) kebun-kebun kurma dan anggur serta Kami memancarkan padanya beberapa mata air</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">35</div>
+          <div class="verse-content">
+            <div class="arabic">لِيَأْكُلُوْا مِنْ ثَمَرِهٖۙ وَمَا عَمِلَتْهُ اَيْدِيْهِمْۗ اَفَلَا يَشْكُرُوْنَ ۝٣٥</div>
+            <div class="translit">liya'kulû min tsamarihî wa mâ ‘amilat-hu aidîhim, a fa lâ yasykurûn</div>
+            <div class="translation">agar mereka dapat makan dari buahnya, dan dari hasil usaha tangan mereka. Mengapa mereka tidak bersyukur?</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">36</div>
+          <div class="verse-content">
+            <div class="arabic">سُبْحٰنَ الَّذِيْ خَلَقَ الْاَزْوَاجَ كُلَّهَا مِمَّا تُنْۢبِتُ الْاَرْضُ وَمِنْ اَنْفُسِهِمْ وَمِمَّا لَا يَعْلَمُوْنَ ۝٣٦</div>
+            <div class="translit">sub-ḫânalladzî khalaqal-azwâja kullahâ mimmâ tumbitul-ardlu wa min anfusihim wa mimmâ lâ ya‘lamûn</div>
+            <div class="translation">Mahasuci (Allah) yang telah menciptakan semuanya berpasang-pasangan, baik dari apa yang ditumbuhkan oleh bumi dan dari diri mereka sendiri maupun dari apa yang tidak mereka ketahui.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">37</div>
+          <div class="verse-content">
+            <div class="arabic">وَاٰيَةٌ لَّهُمُ الَّيْلُۖ نَسْلَخُ مِنْهُ النَّهَارَ فَاِذَا هُمْ مُّظْلِمُوْنَۙ ۝٣٧</div>
+            <div class="translit">wa âyatul lahumul-lailu naslakhu min-hun-nahâra fa idzâ hum mudhlimûn</div>
+            <div class="translation">Suatu tanda juga (atas kekuasaan Allah) bagi mereka adalah malam. Kami pisahkan siang dari (malam) itu. Maka, seketika itu mereka (berada dalam) kegelapan.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">38</div>
+          <div class="verse-content">
+            <div class="arabic">وَالشَّمْسُ تَجْرِيْ لِمُسْتَقَرٍّ لَّهَاۗ ذٰلِكَ تَقْدِيْرُ الْعَزِيْزِ الْعَلِيْمِۗ ۝٣٨</div>
+            <div class="translit">wasy-syamsu tajrî limustaqarril lahâ, dzâlika taqdîrul-‘azîzil-‘alîm</div>
+            <div class="translation">(Suatu tanda juga atas kekuasaan Allah bagi mereka adalah) matahari yang berjalan di tempat peredarannya. Demikianlah ketetapan (Allah) Yang Mahaperkasa lagi Maha Mengetahui.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">39</div>
+          <div class="verse-content">
+            <div class="arabic">وَالْقَمَرَ قَدَّرْنٰهُ مَنَازِلَ حَتّٰى عَادَ كَالْعُرْجُوْنِ الْقَدِيْمِ ۝٣٩</div>
+            <div class="translit">wal-qamara qaddarnâhu manâzila ḫattâ ‘âda kal-‘urjûnil-qadîm</div>
+            <div class="translation">(Begitu juga) bulan, Kami tetapkan bagi(-nya) tempat-tempat peredaran sehingga (setelah ia sampai ke tempat peredaran yang terakhir,) kembalilah ia seperti bentuk tandan yang tua.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">40</div>
+          <div class="verse-content">
+            <div class="arabic">لَا الشَّمْسُ يَنْۢبَغِيْ لَهَآ اَنْ تُدْرِكَ الْقَمَرَ وَلَا الَّيْلُ سَابِقُ النَّهَارِۗ وَكُلٌّ فِيْ فَلَكٍ يَّسْبَحُوْنَ ۝٤٠</div>
+            <div class="translit">lasy-syamsu yambaghî lahâ an tudrikal-qamara wa lal-lailu sâbiqun-nahâr, wa kullun fî falakiy yasbaḫûn</div>
+            <div class="translation">Tidaklah mungkin bagi matahari mengejar bulan dan malam pun tidak dapat mendahului siang. Masing-masing beredar pada garis edarnya.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">41</div>
+          <div class="verse-content">
+            <div class="arabic">وَاٰيَةٌ لَّهُمْ اَنَّا حَمَلْنَا ذُرِّيَّتَهُمْ فِى الْفُلْكِ الْمَشْحُوْنِۙ ۝٤١</div>
+            <div class="translit">wa âyatul lahum annâ ḫamalnâ dzurriyyatahum fil-fulkil-masy-ḫûn</div>
+            <div class="translation">Suatu tanda (kebesaran Allah) bagi mereka adalah bahwa Kami mengangkut keturunan mereka dalam kapal yang penuh muatan.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">42</div>
+          <div class="verse-content">
+            <div class="arabic">وَخَلَقْنَا لَهُمْ مِّنْ مِّثْلِهٖ مَا يَرْكَبُوْنَ ۝٤٢</div>
+            <div class="translit">wa khalaqnâ lahum mim mitslihî mâ yarkabûn</div>
+            <div class="translation">(Begitu juga) Kami menciptakan untuk mereka dari jenis itu angkutan (lain) yang mereka kendarai.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">43</div>
+          <div class="verse-content">
+            <div class="arabic">وَاِنْ نَّشَأْ نُغْرِقْهُمْ فَلَا صَرِيْخَ لَهُمْ وَلَاهُمْ يُنْقَذُوْنَۙ ۝٤٣</div>
+            <div class="translit">wa in nasya' nughriq-hum fa lâ sharîkha lahum wa lâ hum yungqadzûn</div>
+            <div class="translation">Jika Kami menghendaki, Kami akan menenggelamkan mereka. Kemudian, tidak ada penolong bagi mereka dan tidak (pula) mereka diselamatkan.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">44</div>
+          <div class="verse-content">
+            <div class="arabic">اِلَّا رَحْمَةً مِّنَّا وَمَتَاعًا اِلٰى حِيْنٍ ۝٤٤</div>
+            <div class="translit">illâ raḫmatam minnâ wa matâ‘an ilâ ḫîn</div>
+            <div class="translation">Akan tetapi, (Kami menyelamatkan mereka) karena rahmat yang besar dari Kami dan untuk memberi mereka kesenangan hidup sampai waktu tertentu.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">45</div>
+          <div class="verse-content">
+            <div class="arabic">وَاِذَا قِيْلَ لَهُمُ اتَّقُوْا مَا بَيْنَ اَيْدِيْكُمْ وَمَا خَلْفَكُمْ لَعَلَّكُمْ تُرْحَمُوْنَ ۝٤٥</div>
+            <div class="translit">wa idzâ qîla lahumuttaqû mâ baina aidîkum wa mâ khalfakum la‘allakum tur-ḫamûn</div>
+            <div class="translation">Ketika dikatakan kepada mereka, “Takutlah kamu akan (siksa) yang ada di hadapanmu (di dunia) dan azab yang ada di belakangmu (akhirat) agar kamu mendapat rahmat,” (maka mereka berpaling).</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">46</div>
+          <div class="verse-content">
+            <div class="arabic">وَمَا تَأْتِيْهِمْ مِّنْ اٰيَةٍ مِّنْ اٰيٰتِ رَبِّهِمْ اِلَّا كَانُوْا عَنْهَا مُعْرِضِيْنَ ۝٤٦</div>
+            <div class="translit">wa mâ ta'tîhim min âyatim min âyâti rabbihim illâ kânû ‘an-hâ mu‘ridlîn</div>
+            <div class="translation">Tidak satu pun dari tanda-tanda (kebesaran) Tuhan datang kepada mereka, kecuali mereka berpaling darinya.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">47</div>
+          <div class="verse-content">
+            <div class="arabic">وَاِذَا قِيْلَ لَهُمْ اَنْفِقُوْا مِمَّا رَزَقَكُمُ اللّٰهُۙ قَالَ الَّذِيْنَ كَفَرُوْا لِلَّذِيْنَ اٰمَنُوْٓا اَنُطْعِمُ مَنْ لَّوْ يَشَاۤءُ اللّٰهُ اَطْعَمَهٗٓۖ اِنْ اَنْتُمْ اِلَّا فِيْ ضَلٰلٍ مُّبِيْنٍ ۝٤٧</div>
+            <div class="translit">wa idzâ qîla lahum anfiqû mimmâ razaqakumullâhu qâlalladzîna kafarû lilladzîna âmanû a nuth‘imu mal lau yasyâ'ullâhu ath‘amahû in antum illâ fî dlalâlim mubîn</div>
+            <div class="translation">Apabila dikatakan kepada mereka, “Infakkanlah sebagian rezeki yang diberikan Allah kepadamu,” orang-orang yang kufur itu berkata kepada orang-orang yang beriman, “Apakah pantas kami memberi makan kepada orang-orang yang jika Allah menghendaki, Dia akan memberinya makan? Kamu benar-benar dalam kesesatan yang nyata.”</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">48</div>
+          <div class="verse-content">
+            <div class="arabic">وَيَقُوْلُوْنَ مَتٰى هٰذَا الْوَعْدُ اِنْ كُنْتُمْ صٰدِقِيْنَ ۝٤٨</div>
+            <div class="translit">wa yaqûlûna matâ hâdzal-wa‘du ing kuntum shâdiqîn</div>
+            <div class="translation">Mereka berkata, “Kapankah janji (hari Kebangkitan) ini (terjadi) jika kamu orang-orang benar?”</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">49</div>
+          <div class="verse-content">
+            <div class="arabic">مَا يَنْظُرُوْنَ اِلَّا صَيْحَةً وَّاحِدَةً تَأْخُذُهُمْ وَهُمْ يَخِصِّمُوْنَ ۝٤٩</div>
+            <div class="translit">mâ yandhurûna illâ shaiḫataw wâḫidatan ta'khudzuhum wa hum yakhishshimûn</div>
+            <div class="translation">Mereka hanya menunggu satu teriakan yang akan membinasakan mereka saat mereka (sibuk) bertengkar (tentang urusan dunia).</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">50</div>
+          <div class="verse-content">
+            <div class="arabic">فَلَا يَسْتَطِيْعُوْنَ تَوْصِيَةً وَّلَآ اِلٰٓى اَهْلِهِمْ يَرْجِعُوْنَࣖ ۝٥٠</div>
+            <div class="translit">fa lâ yastathî‘ûna taushiyataw wa lâ ilâ ahlihim yarji‘ûn</div>
+            <div class="translation">Oleh sebab itu, mereka tidak dapat berwasiat dan tidak dapat kembali kepada keluarganya.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">51</div>
+          <div class="verse-content">
+            <div class="arabic">وَنُفِخَ فِى الصُّوْرِ فَاِذَا هُمْ مِّنَ الْاَجْدَاثِ اِلٰى رَبِّهِمْ يَنْسِلُوْنَ ۝٥١</div>
+            <div class="translit">wa nufikha fish-shûri fa idzâ hum minal-ajdâtsi ilâ rabbihim yansilûn</div>
+            <div class="translation">Sangkakala pun ditiup dan seketika itu mereka bergerak cepat dari kuburnya menuju kepada Tuhannya.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">52</div>
+          <div class="verse-content">
+            <div class="arabic">قَالُوْا يٰوَيْلَنَا مَنْۢ بَعَثَنَا مِنْ مَّرْقَدِنَاࣝ هٰذَا مَا وَعَدَ الرَّحْمٰنُ وَصَدَقَ الْمُرْسَلُوْنَ ۝٥٢</div>
+            <div class="translit">qâlû yâ wailanâ mam ba‘atsanâ mim marqadinâ hâdzâ mâ wa‘adar-raḫmânu wa shadaqal-mursalûn</div>
+            <div class="translation">Mereka berkata, “Celakalah kami! Siapakah yang membangkitkan kami dari tempat tidur kami (kubur)?” (Lalu, dikatakan kepada mereka,) “Inilah yang dijanjikan (Allah) Yang Maha Pengasih dan benarlah para rasul(-Nya).”</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">53</div>
+          <div class="verse-content">
+            <div class="arabic">اِنْ كَانَتْ اِلَّا صَيْحَةً وَّاحِدَةً فَاِذَا هُمْ جَمِيْعٌ لَّدَيْنَا مُحْضَرُوْنَ ۝٥٣</div>
+            <div class="translit">ing kânat illâ shaiḫataw wâḫidatan fa idzâ hum jamî‘ul ladainâ muḫdlarûn</div>
+            <div class="translation">Teriakan itu hanya sekali saja, maka seketika itu mereka semua dihadapkan kepada Kami (untuk dihisab).</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">54</div>
+          <div class="verse-content">
+            <div class="arabic">فَالْيَوْمَ لَا تُظْلَمُ نَفْسٌ شَيْـًٔا وَّلَا تُجْزَوْنَ اِلَّا مَا كُنْتُمْ تَعْمَلُوْنَ ۝٥٤</div>
+            <div class="translit">fal-yauma lâ tudhlamu nafsun syai'aw wa lâ tujzauna illâ mâ kuntum ta‘malûn</div>
+            <div class="translation">Pada hari itu tidak ada sama sekali orang yang dirugikan sedikit pun. Kamu tidak akan diberi balasan, kecuali atas apa yang telah kamu kerjakan.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">55</div>
+          <div class="verse-content">
+            <div class="arabic">اِنَّ اَصْحٰبَ الْجَنَّةِ الْيَوْمَ فِيْ شُغُلٍ فٰكِهُوْنَۚ ۝٥٥</div>
+            <div class="translit">inna ash-ḫâbal-jannatil-yauma fî syughulin fâkihûn</div>
+            <div class="translation">Sesungguhnya penghuni surga pada hari itu berada dalam kesibukan (sehingga tidak sempat berpikir tentang penghuni neraka) lagi bersenang-senang.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">56</div>
+          <div class="verse-content">
+            <div class="arabic">هُمْ وَاَزْوَاجُهُمْ فِيْ ظِلٰلٍ عَلَى الْاَرَاۤىِٕكِ مُتَّكِــُٔوْنَۚ ۝٥٦</div>
+            <div class="translit">hum wa azwâjuhum fî dhilâlin ‘alal-arâ'iki muttaki'ûn</div>
+            <div class="translation">Mereka dan pasangan-pasangannya berada dalam tempat yang teduh sambil berbaring di atas ranjang berkelambu.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">57</div>
+          <div class="verse-content">
+            <div class="arabic">لَهُمْ فِيْهَا فَاكِهَةٌ وَّلَهُمْ مَّا يَدَّعُوْنَۚ ۝٥٧</div>
+            <div class="translit">lahum fîhâ fâkihatuw wa lahum mâ yadda‘ûn</div>
+            <div class="translation">Di (surga) itu mereka memperoleh buah-buahan dan apa saja yang mereka inginkan.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">58</div>
+          <div class="verse-content">
+            <div class="arabic">سَلٰمٌۗ قَوْلًا مِّنْ رَّبٍّ رَّحِيْمٍ ۝٥٨</div>
+            <div class="translit">salâm, qaulam mir rabbir raḫîm</div>
+            <div class="translation">(Kepada mereka dikatakan,) “Salam sejahtera” sebagai ucapan dari Tuhan Yang Maha Penyayang.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">59</div>
+          <div class="verse-content">
+            <div class="arabic">وَامْتَازُوا الْيَوْمَ اَيُّهَا الْمُجْرِمُوْنَ ۝٥٩</div>
+            <div class="translit">wamtâzul-yauma ayyuhal-mujrimûn</div>
+            <div class="translation">(Dikatakan kepada orang-orang kafir,) “Berpisahlah kamu (dari orang-orang mukmin) pada hari ini, wahai para pendurhaka!</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">60</div>
+          <div class="verse-content">
+            <div class="arabic">اَلَمْ اَعْهَدْ اِلَيْكُمْ يٰبَنِيْٓ اٰدَمَ اَنْ لَّا تَعْبُدُوا الشَّيْطٰنَۚ اِنَّهٗ لَكُمْ عَدُوٌّ مُّبِيْنٌ ۝٦٠</div>
+            <div class="translit">a lam a‘had ilaikum yâ banî âdama al lâ ta‘budusy-syaithân, innahû lakum ‘aduwwum mubîn</div>
+            <div class="translation">Bukankah Aku telah berpesan kepadamu dengan sungguh-sungguh, wahai anak cucu Adam, bahwa janganlah kamu menyembah setan? Sesungguhnya setan itu musuh yang nyata bagi kamu.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">61</div>
+          <div class="verse-content">
+            <div class="arabic">وَاَنِ اعْبُدُوْنِيْۗ هٰذَا صِرَاطٌ مُّسْتَقِيْمٌ ۝٦١</div>
+            <div class="translit">wa ani‘budûnî, hâdzâ shirâthum mustaqîm</div>
+            <div class="translation">(Begitu juga bahwa) sembahlah Aku. Inilah jalan yang lurus.”</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">62</div>
+          <div class="verse-content">
+            <div class="arabic">وَلَقَدْ اَضَلَّ مِنْكُمْ جِبِلًّا كَثِيْرًاۗ اَفَلَمْ تَكُوْنُوْا تَعْقِلُوْنَ ۝٦٢</div>
+            <div class="translit">wa laqad adlalla mingkum jibillang katsîrâ, a fa lam takûnû ta‘qilûn</div>
+            <div class="translation">Sungguh, ia (setan itu) benar-benar telah menyesatkan sangat banyak orang dari kamu. Maka, apakah kamu tidak mengerti?</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">63</div>
+          <div class="verse-content">
+            <div class="arabic">هٰذِهٖ جَهَنَّمُ الَّتِيْ كُنْتُمْ تُوْعَدُوْنَ ۝٦٣</div>
+            <div class="translit">hâdzihî jahannamullatî kuntum tû‘adûn</div>
+            <div class="translation">Inilah (neraka) Jahanam yang dahulu telah diperingatkan kepadamu.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">64</div>
+          <div class="verse-content">
+            <div class="arabic">اِصْلَوْهَا الْيَوْمَ بِمَا كُنْتُمْ تَكْفُرُوْنَ ۝٦٤</div>
+            <div class="translit">ishlauhal-yauma bimâ kuntum takfurûn</div>
+            <div class="translation">Masuklah ke dalamnya pada hari ini karena dahulu kamu mengingkarinya.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">65</div>
+          <div class="verse-content">
+            <div class="arabic">اَلْيَوْمَ نَخْتِمُ عَلٰٓى اَفْوَاهِهِمْ وَتُكَلِّمُنَآ اَيْدِيْهِمْ وَتَشْهَدُ اَرْجُلُهُمْ بِمَا كَانُوْا يَكْسِبُوْنَ ۝٦٥</div>
+            <div class="translit">al-yauma nakhtimu ‘alâ afwâhihim wa tukallimunâ aidîhim wa tasy-hadu arjuluhum bimâ kânû yaksibûn</div>
+            <div class="translation">Pada hari ini Kami membungkam mulut mereka. Tangan merekalah yang berkata kepada Kami dan kaki merekalah yang akan bersaksi terhadap apa yang dahulu mereka kerjakan.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">66</div>
+          <div class="verse-content">
+            <div class="arabic">وَلَوْ نَشَاۤءُ لَطَمَسْنَا عَلٰٓى اَعْيُنِهِمْ فَاسْتَبَقُوا الصِّرَاطَ فَاَنّٰى يُبْصِرُوْنَ ۝٦٦</div>
+            <div class="translit">walau nasyâ'u lathamasnâ ‘alâ a‘yunihim fastabaqush-shirâtha fa annâ yubshirûn</div>
+            <div class="translation">Seandainya Kami menghendaki, pastilah Kami akan menghapus penglihatan (membutakan) mereka sehingga mereka berlomba-lomba (mencari) jalan (selamat). Maka, bagaimana mungkin mereka dapat melihat?</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">67</div>
+          <div class="verse-content">
+            <div class="arabic">وَلَوْ نَشَاۤءُ لَمَسَخْنٰهُمْ عَلٰى مَكَانَتِهِمْ فَمَا اسْتَطَاعُوْا مُضِيًّا وَّلَا يَرْجِعُوْنَࣖ ۝٦٧</div>
+            <div class="translit">walau nasyâ'u lamasakhnâhum ‘alâ makânatihim famastathâ‘û mudliyyaw wa lâ yarji‘ûn</div>
+            <div class="translation">Seandainya Kami menghendaki, pastilah Kami akan mengubah bentuk mereka di tempat mereka berada, sehingga mereka tidak sanggup meneruskan perjalanan dan juga tidak sanggup pulang kembali.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">68</div>
+          <div class="verse-content">
+            <div class="arabic">وَمَنْ نُّعَمِّرْهُ نُنَكِّسْهُ فِى الْخَلْقِۗ اَفَلَا يَعْقِلُوْنَ ۝٦٨</div>
+            <div class="translit">wa man nu‘ammir-hu nunakkis-hu fil-khalq, a fa lâ ya‘qilûn</div>
+            <div class="translation">Siapa yang Kami panjangkan umurnya niscaya Kami balik proses penciptaannya (dari kuat menuju lemah). Maka, apakah mereka tidak mengerti?</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">69</div>
+          <div class="verse-content">
+            <div class="arabic">وَمَا عَلَّمْنٰهُ الشِّعْرَ وَمَا يَنْۢبَغِيْ لَهٗۗ اِنْ هُوَ اِلَّا ذِكْرٌ وَّقُرْاٰنٌ مُّبِيْنٌۙ ۝٦٩</div>
+            <div class="translit">wa mâ ‘allamnâhusy-syi‘ra wa mâ yambaghî lah, in huwa illâ dzikruw wa qur'ânum mubîn</div>
+            <div class="translation">Kami tidak mengajarkan syair kepadanya (Nabi Muhammad) dan (bersyair) itu tidaklah pantas baginya. (Wahyu yang Kami turunkan kepadanya) itu tidak lain hanyalah pelajaran dan Al-Qur’an yang jelas,</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">70</div>
+          <div class="verse-content">
+            <div class="arabic">لِّيُنْذِرَ مَنْ كَانَ حَيًّا وَّيَحِقَّ الْقَوْلُ عَلَى الْكٰفِرِيْنَ ۝٧٠</div>
+            <div class="translit">liyundzira mang kâna ḫayyaw wa yaḫiqqal-qaulu ‘alal-kâfirîn</div>
+            <div class="translation">agar dia (Nabi Muhammad) memberi peringatan kepada orang-orang yang hidup (hatinya) dan agar ketetapan (azab) terhadap orang-orang kafir itu menjadi pasti.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">71</div>
+          <div class="verse-content">
+            <div class="arabic">اَوَلَمْ يَرَوْا اَنَّا خَلَقْنَا لَهُمْ مِّمَّا عَمِلَتْ اَيْدِيْنَآ اَنْعَامًا فَهُمْ لَهَا مٰلِكُوْنَ ۝٧١</div>
+            <div class="translit">a wa lam yarau annâ khalaqnâ lahum mimmâ ‘amilat aidînâ an‘âman fa hum lahâ mâlikûn</div>
+            <div class="translation">Tidakkah mereka mengetahui bahwa Kami telah menciptakan untuk mereka hewan-hewan ternak dari ciptaan tangan Kami (sendiri), lalu mereka menjadi pemiliknya?</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">72</div>
+          <div class="verse-content">
+            <div class="arabic">وَذَلَّلْنٰهَا لَهُمْ فَمِنْهَا رَكُوْبُهُمْ وَمِنْهَا يَأْكُلُوْنَ ۝٧٢</div>
+            <div class="translit">wa dzallalnâhâ lahum fa min-hâ rakûbuhum wa min-hâ ya'kulûn</div>
+            <div class="translation">Kami menjadikannya (hewan-hewan itu) tunduk kepada mereka. Sebagian di antaranya menjadi tunggangan mereka dan sebagian (lagi) mereka makan.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">73</div>
+          <div class="verse-content">
+            <div class="arabic">وَلَهُمْ فِيْهَا مَنَافِعُ وَمَشَارِبُۗ اَفَلَا يَشْكُرُوْنَ ۝٧٣</div>
+            <div class="translit">wa lahum fîhâ manâfi‘u wa masyârib, a fa lâ yasykurûn</div>
+            <div class="translation">Pada dirinya (hewan-hewan ternak itu) terdapat berbagai manfaat dan minuman untuk mereka. Apakah mereka tidak bersyukur?</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">74</div>
+          <div class="verse-content">
+            <div class="arabic">وَاتَّخَذُوْا مِنْ دُوْنِ اللّٰهِ اٰلِهَةً لَّعَلَّهُمْ يُنْصَرُوْنَۗ ۝٧٤</div>
+            <div class="translit">wattakhadzû min dûnillâhi âlihatal la‘allahum yunsharûn</div>
+            <div class="translation">Mereka menjadikan sesembahan selain Allah agar mereka mendapat pertolongan.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">75</div>
+          <div class="verse-content">
+            <div class="arabic">لَا يَسْتَطِيْعُوْنَ نَصْرَهُمْۙ وَهُمْ لَهُمْ جُنْدٌ مُّحْضَرُوْنَ ۝٧٥</div>
+            <div class="translit">lâ yastathî‘ûna nashrahum wa hum lahum jundum muḫdlarûn</div>
+            <div class="translation">(Sesembahan) itu tidak mampu menolong mereka, padahal (sesembahan) itu adalah tentara yang dihadirkan untuk menjaganya.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">76</div>
+          <div class="verse-content">
+            <div class="arabic">فَلَا يَحْزُنْكَ قَوْلُهُمْۘ اِنَّا نَعْلَمُ مَا يُسِرُّوْنَ وَمَا يُعْلِنُوْنَ ۝٧٦</div>
+            <div class="translit">fa lâ yaḫzungka qauluhum, innâ na‘lamu mâ yusirrûna wa mâ yu‘linûn</div>
+            <div class="translation">Maka, jangan sampai ucapan mereka membuat engkau (Nabi Muhammad) bersedih hati. Sesungguhnya Kami mengetahui apa yang mereka rahasiakan dan apa yang mereka nyatakan.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">77</div>
+          <div class="verse-content">
+            <div class="arabic">اَوَلَمْ يَرَ الْاِنْسَانُ اَنَّا خَلَقْنٰهُ مِنْ نُّطْفَةٍ فَاِذَا هُوَ خَصِيْمٌ مُّبِيْنٌ ۝٧٧</div>
+            <div class="translit">a wa lam yaral-insânu annâ khalaqnâhu min nuthfatin fa idzâ huwa khashîmum mubîn</div>
+            <div class="translation">Tidakkah manusia mengetahui bahwa Kami menciptakannya dari setetes mani? Kemudian tiba-tiba saja dia menjadi musuh yang nyata.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">78</div>
+          <div class="verse-content">
+            <div class="arabic">وَضَرَبَ لَنَا مَثَلًا وَّنَسِيَ خَلْقَهٗۗ قَالَ مَنْ يُّحْيِ الْعِظَامَ وَهِيَ رَمِيْمٌ ۝٧٨</div>
+            <div class="translit">wa dlaraba lanâ matsalaw wa nasiya khalqah, qâla may yuḫyil-‘idhâma wa hiya ramîm</div>
+            <div class="translation">Dia membuat perumpamaan bagi Kami dan melupakan asal penciptaannya. Dia berkata, “Siapakah yang bisa menghidupkan tulang-belulang yang telah hancur luluh?”</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">79</div>
+          <div class="verse-content">
+            <div class="arabic">قُلْ يُحْيِيْهَا الَّذِيْٓ اَنْشَاَهَآ اَوَّلَ مَرَّةٍۗ وَهُوَ بِكُلِّ خَلْقٍ عَلِيْمٌۙ ۝٧٩</div>
+            <div class="translit">qul yuḫyîhalladzî ansya'ahâ awwala marrah, wa huwa bikulli khalqin ‘alîm</div>
+            <div class="translation">Katakanlah (Nabi Muhammad), “Yang akan menghidupkannya adalah Zat yang menciptakannya pertama kali. Dia Maha Mengetahui setiap makhluk.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">80</div>
+          <div class="verse-content">
+            <div class="arabic">ࣙالَّذِيْ جَعَلَ لَكُمْ مِّنَ الشَّجَرِ الْاَخْضَرِ نَارًاۙ فَاِذَآ اَنْتُمْ مِّنْهُ تُوْقِدُوْنَ ۝٨٠</div>
+            <div class="translit">alladzî ja‘ala lakum minasy-syajaril-akhdlari nâran fa idzâ antum min-hu tûqidûn</div>
+            <div class="translation">(Dialah) yang menjadikan api untukmu dari kayu yang hijau. Kemudian, seketika itu kamu menyalakan (api) darinya.”</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">81</div>
+          <div class="verse-content">
+            <div class="arabic">اَوَلَيْسَ الَّذِيْ خَلَقَ السَّمٰوٰتِ وَالْاَرْضَ بِقٰدِرٍ عَلٰٓى اَنْ يَّخْلُقَ مِثْلَهُمْۗ بَلٰى وَهُوَ الْخَلّٰقُ الْعَلِيْمُ ۝٨١</div>
+            <div class="translit">a wa laisalladzî khalaqas-samâwâti wal-ardla biqâdirin ‘alâ ay yakhluqa mitslahum, balâ wa huwal-khallâqul-‘alîm</div>
+            <div class="translation">Bukankah Zat yang menciptakan langit dan bumi mampu menciptakan manusia yang serupa mereka itu (di akhirat kelak)? Benar. Dialah yang Maha Banyak Mencipta lagi Maha Mengetahui.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">82</div>
+          <div class="verse-content">
+            <div class="arabic">اِنَّمَآ اَمْرُهٗٓ اِذَآ اَرَادَ شَيْـًٔاۖ اَنْ يَّقُوْلَ لَهٗ كُنْ فَيَكُوْنُ ۝٨٢</div>
+            <div class="translit">innamâ amruhû idzâ arâda syai'an ay yaqûla lahû kun fa yakûn</div>
+            <div class="translation">Sesungguhnya ketetapan-Nya, jika Dia menghendaki sesuatu, Dia hanya berkata kepadanya, “Jadilah!” Maka, jadilah (sesuatu) itu.</div>
+          </div>
+        </article>
+
+        <!-- AYAT  -->
+        <article class="verse">
+          <div class="verse-number">83</div>
+          <div class="verse-content">
+            <div class="arabic">فَسُبْحٰنَ الَّذِيْ بِيَدِهٖ مَلَكُوْتُ كُلِّ شَيْءٍ وَّاِلَيْهِ تُرْجَعُوْنَࣖ ۝٨٣</div>
+            <div class="translit">fa sub-ḫânalladzî biyadihî malakûtu kulli syai'iw wa ilaihi turja‘ûn</div>
+            <div class="translation">Maka, Mahasuci (Allah) yang di tangan-Nya kekuasaan atas segala sesuatu dan kepada-Nya kamu dikembalikan.</div>
+          </div>
+        </article>
+
+
+      </section>
+    </div>
+  </div>
+
+
+</body>
+</html>
